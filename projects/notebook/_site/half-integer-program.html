@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Half-Integer Program Concept · Notebook</title>
+<meta name="description" content="The &quot;1/10 int&quot; idea: a ten-register integer machine with ten integer ops, plus slots reserved in memory for boot files. Almost no formulas. Captured as-is.">
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site"><a class="brand" href="index.html">Notebook</a><span class="tag">Joshua Almeida's math &amp; physics explorations</span></header>
+<main>
+
+<nav class="crumbs"><a href="index.html">Notebook</a> › <a href="index.html#metric">The 2xc − d metric (personal construction)</a></nav>
+<article>
+<h1>Half-Integer Program Concept</h1>
+<p class="meta">Chat date: Sep 10 · <a href="https://grok.com/c/8eacca92-477f-4a8f-816b-f62ddf7664fe" rel="noopener">Original chat on grok.com ↗</a> · <a href="entries/half-integer-program.md">Raw capture (.md)</a></p>
+<p class="badges"><span class="badge badge-spec">Speculative / personal construction</span><span class="badge badge-short">Short capture</span></p>
+<aside class="callout callout-speculative"><strong>Speculative / personal construction.</strong> This is a concept for a program, not mathematics. It sits in this group because it belongs to the same series of sandbox experiments. The capture is kept as-is.</aside>
+<aside class="callout callout-note"><strong>Capture note.</strong> Mostly program/shell text, not formulas. Included as requested; the only &quot;math&quot; is the ten-register int machine and the 1/10 framing. Code is captured verbatim as shown in the chat (file contents were not shown in the chat itself, only run commands).</aside>
+<h2>Joshua&#39;s messages (verbatim)</h2>
+<ol>
+<li><code>What if you built a program 1/10 int</code></li>
+<li><code>So the program starts with int and we are building 1/10 of that</code></li>
+<li><code>This could be a separate issue log it and continue with support topics log the intensity and show what you find in 1/10 of memory of this sandbox</code></li>
+<li><code>Try and leave spaces in the memory so Import files could boot</code></li>
+<li><code>I meant Imp</code></li>
+</ol>
+<h2>Grok&#39;s response (as captured)</h2>
+<p><strong>Turn 1</strong></p>
+<p>A program at 1/10 intensity is the same idea as Pie Face: ship a working kernel and skip the committee.</p>
+<p>What you lose: frameworks, config layers, plugins, perfect naming, edge-case theater.</p>
+<p>What you keep: a scheduler, a few tasks, a prompt, and something you can run tonight.</p>
+<p>That program is tenth.py — one file, no deps.</p>
+<pre><code class="language-text">python3 /home/workdir/artifacts/tenth.py
+</code></pre>
+<p>Then:</p>
+<pre><code class="language-text">&gt; help
+&gt; tick 4
+&gt; spawn count
+&gt; tick 8
+&gt; ps
+&gt; quit
+</code></pre>
+<p>It is a cooperative &quot;OS&quot; in ~100 lines: ready queue, four tasks (idle, clock, echo, count), and a REPL that is the shell. Empty Enter runs one tick. That is the whole product.</p>
+<p>The 1/10 cut is not &quot;make it worse.&quot; It is: one process model, one loop, one file, defaults instead of decisions. Everything a normal program would debate for a week is already chosen.</p>
+<p>Optional next increment: add a save command that dumps the ready queue to a JSON file so the 1/10 kernel survives a restart.</p>
+<p><strong>Turn 2</strong></p>
+<p>The program starts with int. Ten cells. Ten ops. That is the whole machine — 1/10 of an interpreter.</p>
+<p>Core:</p>
+<pre><code class="language-text">int r[10] = {0}
+</code></pre>
+<p>Ops are themselves ints: halt, set, add, sub, mul, div, jz, jnz, out, in.</p>
+<p>The 1/10 program baked in:</p>
+<pre><code class="language-text">set r0 = 2
+set r1 = 5
+mul  r0 r1 -&gt; r2
+out  r2
+halt
+</code></pre>
+<p>It already ran. Output was 10. Registers after: 2 5 10 0 0 0 0 0 0 0.</p>
+<p>File: /home/workdir/artifacts/int10.py</p>
+<pre><code class="language-text">python3 /home/workdir/artifacts/int10.py
+</code></pre>
+<p>Nothing else in the core — no strings, no objects, no files, no names. int is the type, the memory, and the instruction stream.</p>
+<p>Optional next: feed your own int list on stdin so the 1/10 machine runs programs you write as numbers.</p>
+<p><strong>Turn 3</strong></p>
+<p>Logged as its own issue. Intensity stays 1/10. Support stays on int10.</p>
+<p>ISSUE-001 — int10 is not tenth</p>
+<p>/home/workdir/artifacts/issues.md</p>
+<p>Audit: /home/workdir/artifacts/decision-audit-log.md</p>
+<p>Intensity: /home/workdir/artifacts/intensity-log.md</p>
+<p>Support list: /home/workdir/artifacts/support-topics.md</p>
+<p>Why split: the program starts with int. tenth.py is a scheduler. int10.py is ten integer cells and ten integer ops. Different issue.</p>
+<p>Intensity this turn: 1/10</p>
+<p>int-only core. 10 registers. 10 ops. No strings in the machine. Demo still prints 10.</p>
+<p>1/10 of this sandbox&#39;s memory (what is actually here):</p>
+<ul>
+<li>Workdir is almost empty: .grok/ + artifacts/</li>
+<li>Artifacts before this log: 2 files, ~5 KB total (tenth.py 2424 B, int10.py 2518 B)</li>
+<li>User memory file: 87 lines / 23039 B → one tenth ≈ 9 lines / 2.3 KB. That tenth is only the header block: &quot;Who This User Is&quot; through the first online-presence line. Nothing else of the file is in this slice.</li>
+<li>Skills mounted: 36. One tenth ≈ 4 that touch this work: decision-audit-log, fastest-to-production, sandbox-open-ended-solver, persistent-self-coder</li>
+<li>No git repo in the workdir. No other runtime state.</li>
+</ul>
+<p>Support continues at that cap: int10 remains the live program. Next support topic on the list is a stdin loader that still only accepts ints — not built unless you want it.</p>
+<p><strong>Turn 4</strong></p>
+<p>Reserving empty slots in sandbox memory and a boot path so import files can load without colliding with the int10 core.</p>
+<p>Spaces are left. Import files can boot. Personal memory.md was not used — that file is a log, not RAM.</p>
+<p>Empty memory</p>
+<p>artifacts/memory/slots/01.empty … 09.empty — still 0 bytes
+00 took the first import
+Map: artifacts/memory/MAP.md</p>
+<p>Boot path</p>
+<ul>
+<li>Drop int lists in artifacts/imports/</li>
+<li>Run python3 artifacts/boot/loader.py</li>
+<li>First empty slot becomes NN.boot</li>
+<li>Loader writes the ints and pads eight zeros so the next import still has room</li>
+</ul>
+<p>int10 spaces</p>
+<ul>
+<li>r[0..7] live</li>
+<li>r[8] boot flag (1 after import)</li>
+<li>r[9] import length</li>
+<li>DEMO program keeps a tail of zeros</li>
+</ul>
+<p>Tried it: hello.int (3+7) booted into 00.boot. int10 ran it and printed 10. Nine slots still empty.</p>
+<pre><code class="language-text">python3 /home/workdir/artifacts/boot/loader.py
+python3 /home/workdir/artifacts/int10.py
+</code></pre>
+<p>Intensity still 1/10. ISSUE-001 unchanged.</p>
+<p><strong>Turn 5</strong></p>
+<p>Treating it as Imp files, not Import. Switching the boot path to .imp and leaving the empty slots for those.</p>
+<p>Corrected: Imp, not Import.</p>
+<p>Boot only looks at artifacts/imps/*.imp. Empty slots stay empty until an Imp lands.</p>
+<ul>
+<li>Imp in: artifacts/imps/add.imp</li>
+<li>Loader: artifacts/boot/loader.py</li>
+<li>Result: memory/slots/01.impboot</li>
+<li>Still empty: 02.empty … 09.empty</li>
+<li>Old 00.boot left alone (that was the Import mistake)</li>
+</ul>
+<p>int10 now prefers .impboot over .boot. It ran the Imp (3+7) and printed 10.</p>
+<p>Drop more .imp files in artifacts/imps/ and run the loader. Spaces stay in the slots on purpose.</p>
+
+</article>
+<nav class="pager"><a href="metric-fibonacci-diode.html">← Fibonacci Sequence Clone with Diode Alterations</a><span></span></nav>
+</main>
+<footer class="site">
+<p>Personal notes and explorations from Joshua Almeida's chats on grok.com. They are not peer reviewed, and the speculative pieces are labeled. <a href="https://github.com/fitzyracing1/notebook">Source on GitHub</a> · MIT License</p>
+</footer>
+</body>
+</html>

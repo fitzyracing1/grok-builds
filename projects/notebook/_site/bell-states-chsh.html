@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bell State: Quantum vs. Classical Simulation · Notebook</title>
+<meta name="description" content="Can a classical computer be modeled from a Bell state? Bell states, no-signaling, and a CHSH calculation reaching |S| = 2√2.">
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site"><a class="brand" href="index.html">Notebook</a><span class="tag">Joshua Almeida's math &amp; physics explorations</span></header>
+<main>
+
+<nav class="crumbs"><a href="index.html">Notebook</a> › <a href="index.html#quantum">Quantum mechanics &amp; quantum information</a></nav>
+<article>
+<h1>Bell State: Quantum vs. Classical Simulation</h1>
+<p class="meta">Chat date: Jan 12, 2026 · <a href="https://grok.com/c/740fec20-bb42-4ebc-9886-341573bea275" rel="noopener">Original chat on grok.com ↗</a> · <a href="entries/bell-states-chsh.md">Raw capture (.md)</a></p>
+<p class="badges"></p>
+
+
+<h2>Joshua&#39;s messages (verbatim)</h2>
+<ol>
+<li><code>model a classical computer from a bell state</code></li>
+<li><code>python</code></li>
+</ol>
+<h2>Grok&#39;s response (as captured)</h2>
+<p><strong>Turn 1</strong></p>
+<p>Grok read the request as one of two opposing ideas in quantum information:</p>
+<ol>
+<li><p><strong>Bell state as a resource for classical simulation.</strong> The EPR pair <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi mathvariant="normal">Φ</mi><mo>+</mo></msup><mo>=</mo><mfrac><mrow><mi mathvariant="normal">∣</mi><mn>00</mn><mo stretchy="false">⟩</mo><mo>+</mo><mi mathvariant="normal">∣</mi><mn>11</mn><mo stretchy="false">⟩</mo></mrow><msqrt><mn>2</mn></msqrt></mfrac></mrow><annotation encoding="application/x-tex">\Phi^+ = \frac{|00\rangle + |11\rangle}{\sqrt{2}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7713em;"></span><span class="mord"><span class="mord">Φ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7713em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.548em;vertical-align:-0.538em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.551em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord sqrt mtight"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9128em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mtight" style="padding-left:0.833em;"><span class="mord mtight">2</span></span></span><span style="top:-2.8728em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail mtight" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1272em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∣00</span><span class="mclose mtight">⟩</span><span class="mbin mtight">+</span><span class="mord mtight">∣11</span><span class="mclose mtight">⟩</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.538em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> correlations can be classically simulated only with classical communication between the simulated parties. With unbounded communication, all quantum correlations of a Bell pair can be reproduced; with finite (but unbounded-in-advance) communication, still possible (several bits suffice for a single Bell state); with no communication (local hidden variables only), impossible, as Bell&#39;s theorem shows: the CHSH inequality is violated by quantum mechanics.</p>
+</li>
+<li><p><strong>Building a classical computer from Bell states.</strong> The answer is essentially no. Comparison:</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Classical computer</th>
+<th>Quantum computer (with Bell states)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Basic unit</td>
+<td>bit: 0 or 1</td>
+<td>qubit: superposition</td>
+</tr>
+<tr>
+<td>Two-particle state</td>
+<td>product state only</td>
+<td>can be entangled (Bell states are maximal)</td>
+</tr>
+<tr>
+<td>Correlations</td>
+<td>always local &amp; realistic</td>
+<td>can be nonlocal (violate Bell inequalities)</td>
+</tr>
+<tr>
+<td>Efficient simulation</td>
+<td>trivial</td>
+<td>generally believed impossible (#P-hard)</td>
+</tr>
+<tr>
+<td>Simulable by the other?</td>
+<td>Yes: quantum can simulate classical</td>
+<td>No: classical cannot efficiently simulate universal quantum</td>
+</tr>
+</tbody></table>
+<p>Key takeaway: Bell states show quantum mechanics generates correlations classical mechanics cannot, and this is what makes efficient classical simulation of general quantum computation believed impossible. Even many Bell pairs plus classical post-processing do not efficiently reproduce a universal quantum computer&#39;s output (unless <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="sans-serif">B</mi><mi mathvariant="sans-serif">Q</mi><mi mathvariant="sans-serif">P</mi></mrow><mo>⊆</mo><mrow><mi mathvariant="sans-serif">B</mi><mi mathvariant="sans-serif">P</mi><mi mathvariant="sans-serif">P</mi></mrow></mrow><annotation encoding="application/x-tex">\mathsf{BQP} \subseteq \mathsf{BPP}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8304em;vertical-align:-0.136em;"></span><span class="mord"><span class="mord mathsf">BQP</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⊆</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord"><span class="mord mathsf">BPP</span></span></span></span></span>, considered extremely unlikely). Grok also noted that Bell correlations do not allow faster-than-light signaling (no-signaling theorem), and that Shor, Grover, variational algorithms, and boson sampling are not efficiently obtained by measuring Bell pairs cleverly.</p>
+<p><strong>Turn 2: Python (verbatim)</strong></p>
+<p>Simplest version (print the four Bell states):</p>
+<pre><code class="language-python"># The four maximally entangled Bell states (in standard notation)
+
+bell_states = [
+    &quot;Φ⁺ = ( |00⟩ + |11⟩ ) / √2    ← most common one&quot;,
+    &quot;Φ⁻ = ( |00⟩ - |11⟩ ) / √2&quot;,
+    &quot;Ψ⁺ = ( |01⟩ + |10⟩ ) / √2&quot;,
+    &quot;Ψ⁻ = ( |01⟩ - |10⟩ ) / √2&quot;
+]
+
+for i, state in enumerate(bell_states, 1):
+    print(f&quot;Bell state {i}:  {state}&quot;)
+</code></pre>
+<p>QuTiP version of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi mathvariant="normal">Φ</mi><mo>+</mo></msup></mrow><annotation encoding="application/x-tex">\Phi^+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7713em;"></span><span class="mord"><span class="mord">Φ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7713em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span></span></span></span></span></span></span></span></span>:</p>
+<pre><code class="language-python"># pip install qutip   (if you want to run this)
+
+from qutip import *
+import numpy as np
+
+# Basis states
+ket0 = basis(2, 0)
+ket1 = basis(2, 1)
+
+# Most famous Bell state: Φ⁺
+bell_plus = (tensor(ket0, ket0) + tensor(ket1, ket1)).unit()
+
+print(&quot;Φ⁺ Bell state:&quot;)
+print(bell_plus)
+
+print(&quot;\nDensity matrix:&quot;)
+print(bell_plus * bell_plus.dag())
+
+# Quick check: is it entangled? (very simple purity check)
+print(&quot;\nPurity (should be 1 for pure state):&quot;, (bell_plus * bell_plus.dag()).tr()**2)
+</code></pre>
+<p>Expected output as stated by Grok:</p>
+<pre><code>Φ⁺ Bell state:
+Quantum object: dims=[[2, 2], [1]], shape=(4, 1), type=&#39;ket&#39;, dtype=Dense
+Qobj data =
+[[0.70710678]
+ [0.        ]
+ [0.        ]
+ [0.70710678]]
+
+Purity: 1.0
+</code></pre>
+<p>CHSH simulation:</p>
+<pre><code class="language-python">import numpy as np
+
+def chsh_correlation(theta_a, theta_b):
+    &quot;&quot;&quot;Expectation value &lt;A B&gt; for angles in radians&quot;&quot;&quot;
+    # Alice measures at angle theta_a, Bob at theta_b
+    # Using perfect anticorrelation of singlet = Ψ⁻
+    return -np.cos(theta_a - theta_b)
+
+# CHSH combination (one of the standard choices)
+angles = [
+    (0,        np.pi/4),     # A0, B0
+    (0,       -np.pi/4),     # A0, B1
+    (np.pi/2,  np.pi/4),     # A1, B0
+    (np.pi/2, -np.pi/4)      # A1, B1
+]
+
+S = 0
+for a, b in angles:
+    corr = chsh_correlation(a, b)
+    S += corr
+    print(f&quot;&lt;A{a} B{b}&gt; = {corr: .3f}&quot;)
+
+print(f&quot;\nCHSH value S = {S:.3f}&quot;)
+print(&quot;Classical bound: |S| ≤ 2&quot;)
+print(&quot;Quantum can reach: 2√2 ≈ 2.828&quot;)
+</code></pre>
+<p>Expected output as stated by Grok:</p>
+<pre><code>&lt;A0 B0&gt; = -0.707
+&lt;A0 B1&gt; = -0.707
+&lt;A1 B0&gt; =  0.707
+&lt;A1 B1&gt; = -0.707
+
+CHSH value S = -2.828
+Classical bound: |S| ≤ 2
+Quantum can reach: 2√2 ≈ 2.828
+</code></pre>
+<p>Grok offered next steps (Monte Carlo runs, noise, full CHSH game, converting between Bell states with local operations, Qiskit/stim circuit drawing).</p>
+<p><em>Note:</em> the CHSH snippet uses the singlet correlation <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false">(</mo><mi>a</mi><mo separator="true">,</mo><mi>b</mi><mo stretchy="false">)</mo><mo>=</mo><mo>−</mo><mi>cos</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>a</mi><mo>−</mo><mi>b</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">E(a,b) = -\cos(a-b)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">b</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">cos</span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">b</span><span class="mclose">)</span></span></span></span> with the sign of the four terms as written; the printed sum is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>2.828</mn></mrow><annotation encoding="application/x-tex">-2.828</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">2.828</span></span></span></span> in magnitude <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><msqrt><mn>2</mn></msqrt></mrow><annotation encoding="application/x-tex">2\sqrt{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.04em;vertical-align:-0.1328em;"></span><span class="mord">2</span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9072em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord">2</span></span></span><span style="top:-2.8672em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1328em;"><span></span></span></span></span></span></span></span></span>, so <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∣</mi><mi>S</mi><mi mathvariant="normal">∣</mi><mo>=</mo><mn>2</mn><msqrt><mn>2</mn></msqrt></mrow><annotation encoding="application/x-tex">|S| = 2\sqrt{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.0576em;">S</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.04em;vertical-align:-0.1328em;"></span><span class="mord">2</span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9072em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord">2</span></span></span><span style="top:-2.8672em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1328em;"><span></span></span></span></span></span></span></span></span>, which is the quantum (Tsirelson) value.</p>
+
+</article>
+<nav class="pager"><a href="drift-rate.html">← Drift Rate: Definition, Calculation, Applications</a><a href="nonlinear-hamiltonian.html">Decoding Physics and Quantum Equations →</a></nav>
+</main>
+<footer class="site">
+<p>Personal notes and explorations from Joshua Almeida's chats on grok.com. They are not peer reviewed, and the speculative pieces are labeled. <a href="https://github.com/fitzyracing1/notebook">Source on GitHub</a> · MIT License</p>
+</footer>
+</body>
+</html>

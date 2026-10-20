@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notebook · Math &amp; physics explorations</title>
+<meta name="description" content="Joshua Almeida's math &amp; physics explorations from his Grok chats">
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site"><a class="brand" href="index.html">Notebook</a><span class="tag">Joshua Almeida's math &amp; physics explorations</span></header>
+<main>
+
+<section class="intro">
+<h1>Notebook</h1>
+<p>This is a collection of Joshua Almeida's math and physics explorations: 22 entries taken from his chats on <a href="https://grok.com">grok.com</a>. Each page shows his questions word for word, followed by the formulas, derivations and code from the reply. Every page links back to the original chat.</p>
+<p>These are personal working notes, not a textbook. The replies are partly excerpted and condensed. Entries marked <span class="badge badge-spec">Speculative / personal construction</span> are invented frameworks or notations, including the whole <a href="#metric">2xc − d metric</a> section. Entries marked <span class="badge badge-expl">Exploratory</span> start from Joshua's own equations. Neither kind is established theory.</p>
+</section>
+<section id="algebra"><h2>Algebra &amp; number systems</h2><ul class="entries">
+<li><a href="quadratic-mc.html">Solving Quadratic Equation Step-by-Step</a> <p>Solving x² − x/v = mc with the quadratic formula, then a look at what changes if c is the speed of light (including a units check).</p></li>
+<li><a href="logarithms-exponents.html">Logarithms and Exponents Exploration</a> <span class="badge badge-short">Short capture</span><p>Reading handwritten notes on the definition u = logₙ v ⇔ nᵘ = v, with examples like log₆₀ 60 = 1.</p></li>
+<li><a href="upi-ternary.html">u p i ternary system</a> <span class="badge badge-spec">Speculative / personal construction</span><p>A three-letter 'binary-like' system with digits u, p, i: first as base 3, then a custom mapping, plus a binary converter.</p></li>
+</ul></section>
+<section id="geometry"><h2>Geometry &amp; trigonometry</h2><ul class="entries">
+<li><a href="three-halves-circle.html">Circumference of 3/2 Circle</a> <span class="badge badge-short">Short capture</span><p>Distance = (3/2)πr: the arc length of a 270° path.</p></li>
+<li><a href="circle-plot.html">Circle Plot with 0.1 Rad Step</a> <span class="badge badge-short">Short capture</span><p>Sampling the parametric unit circle x = cos θ, y = sin θ at a 0.1 rad step, in Python.</p></li>
+</ul></section>
+<section id="linear-algebra"><h2>Linear algebra</h2><ul class="entries">
+<li><a href="identity-matrix.html">Identity Matrix in Linear Algebra</a> <span class="badge badge-short">Short capture</span><p>The 3×3 identity matrix and its properties: IA = AI = A, det I = 1, I⁻¹ = I, eigenvalues all 1.</p></li>
+<li><a href="linear-algebra-sprites.html">Linear Algebra Yields Interactive Sprites</a> <span class="badge badge-short">Short capture</span><p>How vectors and (homogeneous) transform matrices drive sprites in real-time graphics. Qualitative, no equations.</p></li>
+</ul></section>
+<section id="calculus"><h2>Calculus (speculative)</h2><ul class="entries">
+<li><a href="fold-calculus.html">Invent New Calculus</a> <span class="badge badge-spec">Speculative / personal construction</span><p>An invented 'Fold Calculus' built on sequences of crests and troughs: fold derivative, fold integral, a fundamental theorem, a worked example, and a coding loop.</p></li>
+</ul></section>
+<section id="probability"><h2>Probability &amp; statistics</h2><ul class="entries">
+<li><a href="standard-error.html">Standard Deviation Calculation Explanation</a> <p>Reading 100/9.65² as the variance of a sample mean (σ²/n), standard error, CEP, and a Python Monte Carlo check.</p></li>
+<li><a href="drift-rate.html">Drift Rate: Definition, Calculation, Applications</a> <p>Drift rate across fields: the μ in dY = μ dt + σ dW, biased random walks, drift-diffusion models, and electron drift velocity.</p></li>
+</ul></section>
+<section id="quantum"><h2>Quantum mechanics &amp; quantum information</h2><ul class="entries">
+<li><a href="bell-states-chsh.html">Bell State: Quantum vs. Classical Simulation</a> <p>Can a classical computer be modeled from a Bell state? Bell states, no-signaling, and a CHSH calculation reaching |S| = 2√2.</p></li>
+<li><a href="nonlinear-hamiltonian.html">Decoding Physics and Quantum Equations</a> <span class="badge badge-expl">Exploratory</span><p>Interpreting H = xz² − x/m as a qubit or anharmonic-oscillator Hamiltonian, a QuTiP simulation, and printing circuits in a terminal.</p></li>
+</ul></section>
+<section id="mechanics"><h2>Classical mechanics &amp; relativity</h2><ul class="entries">
+<li><a href="pi-squared-energy-mass.html">π² Einstein energy-mass relation</a> <span class="badge badge-expl">Exploratory</span><span class="badge badge-short">Short capture</span><p>A units check of the proposed π² = E·m − c, and dimensionally consistent rearrangements involving E = mc².</p></li>
+<li><a href="physics-notebook-program.html">STEM Student Physics Notebook Analysis</a> <p>Turning a physics notebook page into a SymPy program: v = 2πr/T, vector magnitude, and KE/PE/momentum placeholders.</p></li>
+<li><a href="bearing-odometry.html">Robot using free spin of bearings to calculate motion</a> <p>Using a free-spinning bearing as a motion sensor: s = 2πrN, friction decay Iω̇ = −τ_f, and a predict-then-correct residual.</p></li>
+</ul></section>
+<section id="numerical"><h2>Numerical methods</h2><ul class="entries">
+<li><a href="bisection-c.html">C Bisection Algorithm Header File</a> <p>A bisection root finder in C: sign-change check, interval halving, stopping rules, and status codes.</p></li>
+</ul></section>
+<section id="metric"><h2>The 2xc − d metric (personal construction)</h2><p class="cat-intro callout callout-speculative">Joshua's own invented algebra. These chats are built around his rule 2xc − d = 1, which he calls a &quot;metric for all computing&quot;, and related shorthand. It is a personal, speculative construction, not established mathematics or physics. The pages show how the chats rearranged and applied it.</p><ul class="entries">
+<li><a href="metric-for-all-computing.html">2xc - d Metric for All Computing</a> <span class="badge badge-spec">Speculative / personal construction</span><p>The chat that sets up the metric: 2xc − d = 1 is declared the &quot;metric for all computing&quot; and solved for d, x and c, then wrapped as a sandbox program template and a speech-to-text &quot;valuation engine&quot;.</p></li>
+<li><a href="metric-dark-matter.html">Dark matter equals 1xc/d =b+1c/d</a> <span class="badge badge-spec">Speculative / personal construction</span><p>Rearranging DM = xc/d = b + c/d into closed forms for b, x and d, then substituting the invariant d = 2xc − 1.</p></li>
+<li><a href="metric-x-equation.html">X Metric Equation Solved</a> <span class="badge badge-spec">Speculative / personal construction</span><p>Several ways to parse X=b-1c/dxcd=1/2c-1 as algebra, and the slice where two readings agree: c = 1/4, d = 4/x, X = b − x/16.</p></li>
+<li><a href="metric-fmc-1d.html">FMC' 1D Formula Derivation</a> <span class="badge badge-spec">Speculative / personal construction</span><p>Reading the fragment Fmc' 1d = f, *c = d − 1, c = f as a small system alongside 2xc − d = 1, and when the two expressions for d can agree.</p></li>
+<li><a href="metric-fibonacci-diode.html">Fibonacci Sequence Clone with Diode Alterations</a> <span class="badge badge-spec">Speculative / personal construction</span><p>Applying 2xc − d = 1 to a piece of text, then a Fibonacci sequence with every term halved (0.5, 0.5, 1, 1.5, 2.5, …) and a one-way &quot;diode&quot; gate in a demo matcher that uses only fictional profiles.</p></li>
+<li><a href="half-integer-program.html">Half-Integer Program Concept</a> <span class="badge badge-spec">Speculative / personal construction</span><span class="badge badge-short">Short capture</span><p>The &quot;1/10 int&quot; idea: a ten-register integer machine with ten integer ops, plus slots reserved in memory for boot files. Almost no formulas. Captured as-is.</p></li>
+</ul></section>
+</main>
+<footer class="site">
+<p>Personal notes and explorations from Joshua Almeida's chats on grok.com. They are not peer reviewed, and the speculative pieces are labeled. <a href="https://github.com/fitzyracing1/notebook">Source on GitHub</a> · MIT License</p>
+</footer>
+</body>
+</html>

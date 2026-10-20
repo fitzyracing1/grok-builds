@@ -1,20 +1,20 @@
 # Grok Builds
 
-Every product Joshua Almeida built with Grok: source, docs, and live demos for Locker, Garage, Stampback, Armchair Atlas, Scanrepo, EchoApp, Dilop, Hailset and the Notebook.
+Every product Joshua Almeida built with Grok: links, docs, and live demos for Locker, Garage, Stampback, Armchair Atlas, Scanrepo, EchoApp, Dilop, Hailset and the Notebook.
 
 **Site:** https://fitzyracing1.github.io/grok-builds/ · **Sitemap:** https://fitzyracing1.github.io/grok-builds/sitemap.xml
 
-| Project | Description | Source | Page | Original repo | Live demo |
-|---|---|---|---|---|---|
-| Armchair | A cinematic atlas for places near the chair and far from it. Static site, no build, no API key: Leaflet + OpenStreetMap tiles, Nominatim search, Overpass for places on the map, and Wikipedia for… | [projects/armchair-atlas](projects/armchair-atlas) | [page](https://fitzyracing1.github.io/grok-builds/armchair-atlas/) | [armchair-atlas](https://github.com/fitzyracing1/armchair-atlas) | [demo](https://fitzyracing1.github.io/armchair-atlas/) |
-| Dilop: suit plugin host | Dilop is a plugin host for a suit (exosuit, humanoid, or wearable). The suit computer scans for plugins, lets you pick a mode, and splits power, compute and bandwidth between them. Plugins talk… | [projects/dilop-suit-plugins](projects/dilop-suit-plugins) | [page](https://fitzyracing1.github.io/grok-builds/dilop-suit-plugins/) | [dilop-suit-plugins](https://github.com/fitzyracing1/dilop-suit-plugins) | — |
-| EchoApp | A new type of application that only acts after predicting and confirming an echo. | [projects/echoapp](projects/echoapp) | [page](https://fitzyracing1.github.io/grok-builds/echoapp/) | [echoapp](https://github.com/fitzyracing1/echoapp) | [demo](https://fitzyracing1.github.io/echoapp/) |
-| Garage | A public index of every public repository of the GitHub account fitzyracing1. Static site, no build, deployable to GitHub Pages. | [projects/garage](projects/garage) | [page](https://fitzyracing1.github.io/grok-builds/garage/) | [garage](https://github.com/fitzyracing1/garage) | [demo](https://fitzyracing1.github.io/garage/) |
-| Locker | Every long is verified before use, or the endpoint is not isolated. | [projects/locker](projects/locker) | [page](https://fitzyracing1.github.io/grok-builds/locker/) | [locker](https://github.com/fitzyracing1/locker) | [demo](https://fitzyracing1.github.io/locker/) |
-| Notebook | Notebook collects Joshua Almeida's math and physics explorations. All 22 entries come from his chats on grok.com. Each entry has its own page with: | [projects/notebook](projects/notebook) | [page](https://fitzyracing1.github.io/grok-builds/notebook/) | [notebook](https://github.com/fitzyracing1/notebook) | [demo](https://fitzyracing1.github.io/notebook/) |
-| Scanrepo (web) | A small press for a git commit. Write the files, print a booklet, and scan it back into the same tree. Every file is rehashed the git way (blob <len>\0 + bytes), then the tree and the commit are… | [projects/scanrepo-web](projects/scanrepo-web) | [page](https://fitzyracing1.github.io/grok-builds/scanrepo-web/) | [scanrepo-web](https://github.com/fitzyracing1/scanrepo-web) | [demo](https://fitzyracing1.github.io/scanrepo-web/) |
-| Stampback | A stamp that writes back. Stampback puts a scannable QR stamp on real mail. When someone scans it, they tap a reply (got it, opened and read, I'll take care of it, sending it back) and the reply… | [projects/stampback](projects/stampback) | [page](https://fitzyracing1.github.io/grok-builds/stampback/) | [stampback](https://github.com/fitzyracing1/stampback) | — |
-| Hailset: Uber for datasets | You have data and a job. Other people have spare compute. Hailset connects the two, Uber-style. | [projects/uber-for-datasets](projects/uber-for-datasets) | [page](https://fitzyracing1.github.io/grok-builds/uber-for-datasets/) | [uber-for-datasets](https://github.com/fitzyracing1/uber-for-datasets) | [demo](https://fitzyracing1.github.io/uber-for-datasets/) |
+| Project | Description | Page | Original repo | Live demo |
+|---|---|---|---|---|
+| Armchair | A cinematic atlas for places near the chair and far from it. Static site, no build, no API key: Leaflet + OpenStreetMap tiles, Nominatim search, Overpass for places on the map, and Wikipedia for… | [page](https://fitzyracing1.github.io/grok-builds/armchair-atlas/) | [armchair-atlas](https://github.com/fitzyracing1/armchair-atlas) | [demo](https://fitzyracing1.github.io/armchair-atlas/) |
+| Dilop: suit plugin host | Dilop is a plugin host for a suit (exosuit, humanoid, or wearable). The suit computer scans for plugins, lets you pick a mode, and splits power, compute and bandwidth between them. Plugins talk… | [page](https://fitzyracing1.github.io/grok-builds/dilop-suit-plugins/) | [dilop-suit-plugins](https://github.com/fitzyracing1/dilop-suit-plugins) | — |
+| EchoApp | A new type of application that only acts after predicting and confirming an echo. | [page](https://fitzyracing1.github.io/grok-builds/echoapp/) | [echoapp](https://github.com/fitzyracing1/echoapp) | [demo](https://fitzyracing1.github.io/echoapp/) |
+| Garage | A public index of every public repository of the GitHub account fitzyracing1. Static site, no build, deployable to GitHub Pages. | [page](https://fitzyracing1.github.io/grok-builds/garage/) | [garage](https://github.com/fitzyracing1/garage) | [demo](https://fitzyracing1.github.io/garage/) |
+| Locker | Every long is verified before use, or the endpoint is not isolated. | [page](https://fitzyracing1.github.io/grok-builds/locker/) | [locker](https://github.com/fitzyracing1/locker) | [demo](https://fitzyracing1.github.io/locker/) |
+| Notebook | Notebook collects Joshua Almeida's math and physics explorations. All 22 entries come from his chats on grok.com. Each entry has its own page with: | [page](https://fitzyracing1.github.io/grok-builds/notebook/) | [notebook](https://github.com/fitzyracing1/notebook) | [demo](https://fitzyracing1.github.io/notebook/) |
+| Scanrepo (web) | A small press for a git commit. Write the files, print a booklet, and scan it back into the same tree. Every file is rehashed the git way (blob <len>\0 + bytes), then the tree and the commit are… | [page](https://fitzyracing1.github.io/grok-builds/scanrepo-web/) | [scanrepo-web](https://github.com/fitzyracing1/scanrepo-web) | [demo](https://fitzyracing1.github.io/scanrepo-web/) |
+| Stampback | A stamp that writes back. Stampback puts a scannable QR stamp on real mail. When someone scans it, they tap a reply (got it, opened and read, I'll take care of it, sending it back) and the reply… | [page](https://fitzyracing1.github.io/grok-builds/stampback/) | [stampback](https://github.com/fitzyracing1/stampback) | — |
+| Hailset: Uber for datasets | You have data and a job. Other people have spare compute. Hailset connects the two, Uber-style. | [page](https://fitzyracing1.github.io/grok-builds/uber-for-datasets/) | [uber-for-datasets](https://github.com/fitzyracing1/uber-for-datasets) | [demo](https://fitzyracing1.github.io/uber-for-datasets/) |
 
 ## Notebook entries
 
@@ -43,4 +43,4 @@ Every product Joshua Almeida built with Grok: source, docs, and live demos for L
 
 ## How it works
 
-`build_site.py` renders each project README (pandoc) and copies the Notebook's pre-rendered KaTeX pages into `site/`, which `.github/workflows/pages.yml` deploys to GitHub Pages. MIT licensed.
+This is a landing repo only; source lives in each original repo. `build_site.py` renders each project README (pandoc, from local checkouts) and copies the Notebook's pre-rendered KaTeX pages into `site/`, which `.github/workflows/pages.yml` deploys to GitHub Pages. MIT licensed.

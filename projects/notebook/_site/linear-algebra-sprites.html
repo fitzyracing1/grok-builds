@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linear Algebra Yields Interactive Sprites · Notebook</title>
+<meta name="description" content="How vectors and (homogeneous) transform matrices drive sprites in real-time graphics. Qualitative, no equations.">
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site"><a class="brand" href="index.html">Notebook</a><span class="tag">Joshua Almeida's math &amp; physics explorations</span></header>
+<main>
+
+<nav class="crumbs"><a href="index.html">Notebook</a> › <a href="index.html#linear-algebra">Linear algebra</a></nav>
+<article>
+<h1>Linear Algebra Yields Interactive Sprites</h1>
+<p class="meta">Chat date: Aug 5 · <a href="https://grok.com/c/315cccbd-0c83-4452-8b6d-b8d90a9e7688" rel="noopener">Original chat on grok.com ↗</a> · <a href="entries/linear-algebra-sprites.md">Raw capture (.md)</a></p>
+<p class="badges"><span class="badge badge-short">Short capture</span></p>
+
+<aside class="callout callout-note"><strong>Capture note.</strong> It has no equations, only the qualitative mapping of vectors and matrices (2×2, 3×3/4×4 homogeneous) to sprite transforms.</aside>
+<h2>Joshua&#39;s messages (verbatim)</h2>
+<ol>
+<li><code>demarcation of linear algebra in compute yields what sprites</code></li>
+</ol>
+<h2>Grok&#39;s response (as captured)</h2>
+<p>Linear algebra, when demarcated (precisely applied and bounded) inside compute systems, supplies the machinery that turns abstract numbers into controllable visual sprites.</p>
+<ul>
+<li>Vectors encode sprite position, velocity, and direction.</li>
+<li>Matrices encode the affine transform: 2×2 for pure 2-D; 3×3 or 4×4 with homogeneous coordinates for translation, rotation, scale, and shear.</li>
+<li>Matrix–vector multiplication moves, spins, stretches, or layers every sprite in one hardware-friendly operation.</li>
+</ul>
+<p>The boundary is the linear-algebra subset used in real-time graphics pipelines (game engines, UI compositors, particle systems, GPU sprite batches).</p>
+<p>Sprite families that follow from these operators:</p>
+<ul>
+<li><strong>Hardware / classic sprites:</strong> fixed-size movable blocks; placement is a pure matrix transform of a base rectangle.</li>
+<li><strong>Alpha-shaped / premultiplied sprites:</strong> arbitrary silhouettes; linear combinations of color and alpha (premultiplication) let the compositor layer them without rectangular bounds.</li>
+<li><strong>Transformed / animated sprites:</strong> vertices or texture coordinates driven by a model matrix each frame. Rotation matrices spin icons, scale matrices pulse, and sequential multiplies produce walk cycles, trails, or UI transitions.</li>
+<li><strong>Layered sprite pipelines:</strong> scene elements rendered into separate buffers, each with its own transform, then composited without re-rasterizing the scene.</li>
+</ul>
+
+</article>
+<nav class="pager"><a href="identity-matrix.html">← Identity Matrix in Linear Algebra</a><a href="fold-calculus.html">Invent New Calculus →</a></nav>
+</main>
+<footer class="site">
+<p>Personal notes and explorations from Joshua Almeida's chats on grok.com. They are not peer reviewed, and the speculative pieces are labeled. <a href="https://github.com/fitzyracing1/notebook">Source on GitHub</a> · MIT License</p>
+</footer>
+</body>
+</html>

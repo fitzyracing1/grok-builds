@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C Bisection Algorithm Header File · Notebook</title>
+<meta name="description" content="A bisection root finder in C: sign-change check, interval halving, stopping rules, and status codes.">
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site"><a class="brand" href="index.html">Notebook</a><span class="tag">Joshua Almeida's math &amp; physics explorations</span></header>
+<main>
+
+<nav class="crumbs"><a href="index.html">Notebook</a> › <a href="index.html#numerical">Numerical methods</a></nav>
+<article>
+<h1>C Bisection Algorithm Header File</h1>
+<p class="meta">Chat date: Sep 7, 2025 · <a href="https://grok.com/c/b0b8db8e-e832-4710-b8f1-c78292c2422f" rel="noopener">Original chat on grok.com ↗</a> · <a href="entries/bisection-c.md">Raw capture (.md)</a></p>
+<p class="badges"></p>
+
+<aside class="callout callout-note"><strong>Capture note.</strong> Most of the transcript is C scaffolding; the math is in the bisection algorithm, its convergence/validity conditions, and its status codes. Later turns (compile/&quot;why&quot; function) are summarized only.</aside>
+<h2>Joshua&#39;s messages (verbatim)</h2>
+<ol>
+<li><code>create why function</code></li>
+<li><code>function named why</code></li>
+<li><code>compile</code></li>
+</ol>
+<p>(The first user message is the one shown above; the bisection.h header and function declarations were supplied in earlier, unlisted context.)</p>
+<h2>Grok&#39;s response (as captured)</h2>
+<p><strong>Turn 1: <code>bisect</code></strong></p>
+<p>Grok said no function named <code>why</code> exists in the header, assumed the request meant <code>bisect</code>, and implemented:</p>
+<pre><code class="language-c">double bisect(Function f, double a, double b, double tol, Trap *trap) {
+    trap-&gt;iterations = 0;
+    trap-&gt;code = 0;
+    strcpy(trap-&gt;message, &quot;Success&quot;);
+
+    // Validate interval: f(a) * f(b) &lt; 0 ensures a root exists
+    double fa = f(a);
+    double fb = f(b);
+    if (fa * fb &gt;= 0) {
+        trap-&gt;code = 1;
+        strcpy(trap-&gt;message, &quot;Invalid interval: f(a) * f(b) &gt;= 0&quot;);
+        return (a + b) / 2; // Fallback to midpoint
+    }
+
+    // Ensure a &lt; b
+    if (a &gt; b) {
+        double temp = a;
+        a = b;
+        b = temp;
+        fa = f(a);
+        fb = f(b);
+    }
+
+    double mid;
+    while (trap-&gt;iterations &lt; 1000) { // Hard-coded max iterations
+        trap-&gt;iterations++;
+        mid = (a + b) / 2;
+        double fmid = f(mid);
+
+        // Check convergence
+        if (fabs(b - a) &lt; tol || fabs(fmid) &lt; tol) {
+            return mid;
+        }
+
+        // Check for precision issues
+        if (b - a &lt; 1e-15) {
+            trap-&gt;code = 3;
+            strcpy(trap-&gt;message, &quot;Precision issue: interval too small&quot;);
+            return mid;
+        }
+
+        // Update interval based on sign change
+        if (fa * fmid &lt; 0) {
+            b = mid;
+            fb = fmid;
+        } else {
+            a = mid;
+            fa = fmid;
+        }
+    }
+
+    trap-&gt;code = 2;
+    strcpy(trap-&gt;message, &quot;Iteration limit reached&quot;);
+    return mid;
+}
+</code></pre>
+<p>Grok&#39;s explanation of the math:</p>
+<ul>
+<li>Parameters: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span></span></span></span> is the target function (e.g., <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mi>x</mi><mn>2</mn></msup><mo>−</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">f(x) = x^2 - 4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span>); <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo separator="true">,</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a, b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">b</span></span></span></span> are endpoints with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>a</mi><mo stretchy="false">)</mo><mo>⋅</mo><mi>f</mi><mo stretchy="false">(</mo><mi>b</mi><mo stretchy="false">)</mo><mo>&lt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">f(a) \cdot f(b) &lt; 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mopen">(</span><span class="mord mathnormal">b</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>; <code>tol</code> is the convergence tolerance on interval width or function value.</li>
+<li>Validation: requires <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>a</mi><mo stretchy="false">)</mo><mo>⋅</mo><mi>f</mi><mo stretchy="false">(</mo><mi>b</mi><mo stretchy="false">)</mo><mo>&lt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">f(a) \cdot f(b) &lt; 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mopen">(</span><span class="mord mathnormal">b</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> (a sign change guarantees a root by the intermediate value theorem for continuous <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span></span></span></span>).</li>
+<li>Each iteration takes <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>mid</mtext><mo>=</mo><mfrac><mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">\text{mid} = \frac{a+b}{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">mid</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.2251em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">a</span><span class="mbin mtight">+</span><span class="mord mathnormal mtight">b</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>, evaluates <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mtext>mid</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(\text{mid})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mopen">(</span><span class="mord text"><span class="mord">mid</span></span><span class="mclose">)</span></span></span></span>, and keeps the half-interval with the sign change.</li>
+<li>Stops when <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∣</mi><mi>b</mi><mo>−</mo><mi>a</mi><mi mathvariant="normal">∣</mi><mo>&lt;</mo><mtext>tol</mtext></mrow><annotation encoding="application/x-tex">|b - a| &lt; \text{tol}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathnormal">b</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">a</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">tol</span></span></span></span></span> or <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∣</mi><mi>f</mi><mo stretchy="false">(</mo><mtext>mid</mtext><mo stretchy="false">)</mo><mi mathvariant="normal">∣</mi><mo>&lt;</mo><mtext>tol</mtext></mrow><annotation encoding="application/x-tex">|f(\text{mid})| &lt; \text{tol}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.1076em;">f</span><span class="mopen">(</span><span class="mord text"><span class="mord">mid</span></span><span class="mclose">)</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">tol</span></span></span></span></span>, or when the interval is below <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>10</mn><mrow><mo>−</mo><mn>15</mn></mrow></msup></mrow><annotation encoding="application/x-tex">10^{-15}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">15</span></span></span></span></span></span></span></span></span></span></span></span>.</li>
+<li>Status codes: 0 success, 1 invalid interval, 2 iteration limit, 3 precision issue.</li>
+<li>Return: the midpoint as the approximate root.</li>
+</ul>
+<p>Example usage: <code>example_function(x) = x*x - 4</code>, <code>a = 0</code>, <code>b = 3</code>, <code>tol = 1e-6</code> (the root is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">x = 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span>). The example <code>main()</code> prints root, code, message, and iteration count.</p>
+<p><strong>Turn 2 (&quot;function named why&quot;)</strong>: Grok restated that the header&#39;s declared functions are <code>bisect</code>, <code>bisect_multiple</code>, and others, and asked what <code>why</code> should do.</p>
+<p><strong>Turn 3 (&quot;compile&quot;)</strong>: Grok said it would compile the bisection code with the header, and asked for the target compiler/environment and which functions to include. Compiler output is not captured here.</p>
+
+</article>
+<nav class="pager"><a href="bearing-odometry.html">← Robot using free spin of bearings to calculate motion</a><a href="metric-for-all-computing.html">2xc - d Metric for All Computing →</a></nav>
+</main>
+<footer class="site">
+<p>Personal notes and explorations from Joshua Almeida's chats on grok.com. They are not peer reviewed, and the speculative pieces are labeled. <a href="https://github.com/fitzyracing1/notebook">Source on GitHub</a> · MIT License</p>
+</footer>
+</body>
+</html>
