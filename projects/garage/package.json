@@ -1,0 +1,13 @@
+{
+  "name": "garage",
+  "version": "1.0.0",
+  "description": "Garage: a public index of every public GitHub repo of fitzyracing1, fetched client-side, with search, shelves, filters and sort.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "start": "python3 -m http.server 8080",
+    "snapshot": "node scripts/snapshot.mjs fitzyracing1"
+  },
+  "engines": { "node": ">=18" }
+}

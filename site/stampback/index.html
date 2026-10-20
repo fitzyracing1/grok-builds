@@ -1,0 +1,108 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stampback · Grok Builds</title><meta name="description" content="A stamp that writes back. Stampback puts a scannable QR stamp on real mail. When someone scans it, they tap a reply (got it, opened and read, I&#x27;ll take care of it, sending it back) and the reply…"><link rel="canonical" href="https://fitzyracing1.github.io/grok-builds/stampback/">
+<meta property="og:type" content="website"><meta property="og:title" content="Stampback · Grok Builds"><meta property="og:description" content="A stamp that writes back. Stampback puts a scannable QR stamp on real mail. When someone scans it, they tap a reply (got it, opened and read, I&#x27;ll take care of it, sending it back) and the reply…"><meta property="og:url" content="https://fitzyracing1.github.io/grok-builds/stampback/"><meta property="og:site_name" content="Grok Builds by Joshua Almeida"><meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareSourceCode", "name": "Stampback", "description": "A stamp that writes back. Stampback puts a scannable QR stamp on real mail. When someone scans it, they tap a reply (got it, opened and read, I'll take care of it, sending it back) and the reply\u2026", "url": "https://fitzyracing1.github.io/grok-builds/stampback/", "codeRepository": "https://github.com/fitzyracing1/stampback", "license": "https://opensource.org/licenses/MIT", "author": {"@type": "Person", "name": "Joshua Almeida", "url": "https://github.com/fitzyracing1"}}</script><style>body{font:16px/1.6 system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;color:#222}a{color:#0b57d0}img{max-width:100%}pre{background:#f5f5f5;padding:.8rem;overflow:auto}code{background:#f5f5f5}li{margin:.4rem 0}nav{margin-bottom:1rem}.card{border:1px solid #ddd;border-radius:8px;padding:1rem;margin:1rem 0}table{border-collapse:collapse}td,th{border:1px solid #ddd;padding:.3rem .5rem}</style></head><body><nav><a href="../">← All Grok Builds</a></nav><p><a href="https://github.com/fitzyracing1/stampback">Original repo</a> · <a href="https://github.com/fitzyracing1/grok-builds/tree/main/projects/stampback">Source in this repo</a></p><main><h1 id="stampback">Stampback</h1>
+<p><strong>Repo:</strong> <a
+href="https://github.com/fitzyracing1/stampback">https://github.com/fitzyracing1/stampback</a></p>
+<p><strong>A stamp that writes back.</strong> Stampback puts a scannable
+QR stamp on real mail. When someone scans it, they tap a reply (got it,
+opened and read, I'll take care of it, sending it back) and the reply
+shows up on your desk. If the deadline passes with no scan, the desk
+says <strong>not received</strong>. Late replies still arrive.</p>
+<p><img src="../projects/stampback/docs/screenshot.png" alt="Desk" /></p>
+<table>
+<thead>
+<tr class="header">
+<th>Home</th>
+<th>Scan page (recipient's phone)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="../projects/stampback/docs/home.png" alt="Home" /></td>
+<td><img src="../projects/stampback/docs/scan.png" alt="Scan" /></td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-it-works">How it works</h2>
+<ol type="1">
+<li><strong>Start a desk.</strong> No account: a desk is a private link
+(<code>/desk.html#&lt;id&gt;.&lt;key&gt;</code>). <strong>Copy desk
+link</strong> opens the same desk on your phone. The browser remembers
+your desk.</li>
+<li><strong>Name the piece</strong> with a private nickname (Stampback
+rejects things that look like an email or street address) and pick how
+long to wait: <strong>3, 7, 14 or 30 days</strong>.</li>
+<li><strong>Print</strong> one stamp, or tick up to
+<strong>eight</strong> pieces and print them as one sheet. Nicknames are
+never printed; the QR holds only an unguessable stamp URL
+(<code>/s/&lt;stamp&gt;</code>).</li>
+<li><strong>Scan.</strong> The recipient's phone camera opens the scan
+page. One tap sends the reply (with an optional note). The scanner never
+sees your nickname or desk.</li>
+<li><strong>Desk.</strong> Each piece shows Waiting (days left) → Got it
+/ Opened and read / I'll take care of it / Sending it back, or
+<strong>Not received</strong> once the deadline passes. Replies after
+the deadline are marked late. The desk updates live (Server-Sent Events)
+and <strong>Alert me</strong> shows a browser notification while the
+desk is open.</li>
+</ol>
+<p><strong>Stampback does not email anyone.</strong> Replies stay on the
+desk.</p>
+<h2 id="run-it">Run it</h2>
+<p>Zero dependencies, Node 18+.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> start                          <span class="co"># http://localhost:8080</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">PUBLIC_URL</span><span class="op">=</span>http://192.168.1.20:8080 <span class="ex">npm</span> start   <span class="co"># origin printed in QR codes, so phones on your LAN can scan</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> test                           <span class="co"># node --test: core rules + HTTP API round trip</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-t</span> stampback . <span class="kw">&amp;&amp;</span> <span class="ex">docker</span> run <span class="at">-p</span> 8080:8080 <span class="at">-v</span> stampback:/data stampback</span></code></pre></div>
+<p>Environment: <code>PORT</code> (8080), <code>DATA</code>
+(<code>./data/stampback.json</code>), <code>PUBLIC_URL</code> (defaults
+to the request host).</p>
+<p>API: <code>POST /api/desks</code>,
+<code>GET /api/desks/:id?key=</code>,
+<code>POST /api/desks/:id/pieces?key=</code> <code>{name, days}</code>,
+<code>DELETE /api/desks/:id/pieces/:piece?key=</code>,
+<code>GET /api/desks/:id/events?key=</code> (SSE),
+<code>GET /api/stamps/:stamp</code>,
+<code>POST /api/stamps/:stamp/reply</code>
+<code>{kind, note}</code>.</p>
+<h2 id="search-engines-from-the-chat">Search engines (from the
+chat)</h2>
+<ul>
+<li>Homepage carries
+<code>&lt;meta name="google-site-verification" content="V6vcuK3GPyoYOaEMai4qHA1-TxKsL6ql11XR8qoOnX4"&gt;</code>
+(the last tag used in the chat) and is indexable.
+<code>public/google52ab61f0b5e00b30.html</code> is the file-method
+token.</li>
+<li><code>/sitemap.xml</code> and the <code>Sitemap:</code> line in
+<code>/robots.txt</code> are generated with the live origin
+(<code>PUBLIC_URL</code>), so they are valid absolute URLs.
+<code>/llms.txt</code> describes the product for AI crawlers.</li>
+<li>Desk, print, scan and API responses are <code>noindex</code> (header
++ meta) and disallowed in robots.txt.</li>
+<li>Verification only works on the public HTTPS address: use a
+<strong>URL-prefix</strong> property in Search Console (a Domain
+property needs a DNS TXT record), choose "HTML tag", verify, then submit
+<code>/sitemap.xml</code>.</li>
+</ul>
+<h2 id="choices-and-limits">Choices and limits</h2>
+<ul>
+<li>Needs a small server (it records scans from other people's phones),
+so it is not a GitHub Pages site. Any Node host or the Dockerfile
+works.</li>
+<li>Storage is one JSON file with atomic writes; fine for personal use,
+not for heavy multi-user load.</li>
+<li>The desk key in the URL is the only credential; keep the desk link
+private.</li>
+<li><code>Alert me</code> uses the Notification API and only fires while
+a desk tab is open (no push service, no email).</li>
+</ul>
+<h2 id="origin">Origin</h2>
+<p>Built from Joshua Almeida's Grok chat "QR Mail Scan Auto-Reply" (<a
+href="https://grok.com/c/3d197800-da6f-42f2-9555-45a85118b6c0">https://grok.com/c/3d197800-da6f-42f2-9555-45a85118b6c0</a>,
+Sep 22, 2026).</p>
+<h2 id="license">License</h2>
+<p>MIT, see <a href="https://github.com/fitzyracing1/grok-builds/blob/main/projects/stampback/LICENSE">LICENSE</a>. Bundles
+<code>public/vendor/qrcode.js</code> (qrcode-generator, © Kazuhiko
+Arase, MIT).</p>
+</main></body></html>

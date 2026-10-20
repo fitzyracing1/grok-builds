@@ -1,0 +1,94 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scanrepo (web) · Grok Builds</title><meta name="description" content="A small press for a git commit. Write the files, print a booklet, and scan it back into the same tree. Every file is rehashed the git way (blob &lt;len&gt;\0 + bytes), then the tree and the commit are…"><link rel="canonical" href="https://fitzyracing1.github.io/grok-builds/scanrepo-web/">
+<meta property="og:type" content="website"><meta property="og:title" content="Scanrepo (web) · Grok Builds"><meta property="og:description" content="A small press for a git commit. Write the files, print a booklet, and scan it back into the same tree. Every file is rehashed the git way (blob &lt;len&gt;\0 + bytes), then the tree and the commit are…"><meta property="og:url" content="https://fitzyracing1.github.io/grok-builds/scanrepo-web/"><meta property="og:site_name" content="Grok Builds by Joshua Almeida"><meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareSourceCode", "name": "Scanrepo (web)", "description": "A small press for a git commit. Write the files, print a booklet, and scan it back into the same tree. Every file is rehashed the git way (blob <len>\\0 + bytes), then the tree and the commit are\u2026", "url": "https://fitzyracing1.github.io/grok-builds/scanrepo-web/", "codeRepository": "https://github.com/fitzyracing1/scanrepo-web", "license": "https://opensource.org/licenses/MIT", "author": {"@type": "Person", "name": "Joshua Almeida", "url": "https://github.com/fitzyracing1"}}</script><style>body{font:16px/1.6 system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;color:#222}a{color:#0b57d0}img{max-width:100%}pre{background:#f5f5f5;padding:.8rem;overflow:auto}code{background:#f5f5f5}li{margin:.4rem 0}nav{margin-bottom:1rem}.card{border:1px solid #ddd;border-radius:8px;padding:1rem;margin:1rem 0}table{border-collapse:collapse}td,th{border:1px solid #ddd;padding:.3rem .5rem}</style></head><body><nav><a href="../">← All Grok Builds</a></nav><p><a href="https://github.com/fitzyracing1/scanrepo-web">Original repo</a> · <a href="https://github.com/fitzyracing1/grok-builds/tree/main/projects/scanrepo-web">Source in this repo</a> · <a href="https://fitzyracing1.github.io/scanrepo-web/">Live demo</a></p><main><h1 id="scanrepo-web">Scanrepo (web)</h1>
+<p><strong>Live:</strong> <a
+href="https://fitzyracing1.github.io/scanrepo-web/">https://fitzyracing1.github.io/scanrepo-web/</a>
+· <strong>Repo:</strong> <a
+href="https://github.com/fitzyracing1/scanrepo-web">https://github.com/fitzyracing1/scanrepo-web</a></p>
+<p><strong>A small press for a git commit.</strong> Write the files,
+print a booklet, and scan it back into the same tree. Every file is
+rehashed the git way (<code>blob &lt;len&gt;\0</code> + bytes), then the
+tree and the commit are recomputed and compared with the cover.</p>
+<p><img src="../projects/scanrepo-web/docs/screenshot.png"
+alt="Booklet with on-screen code test: Sealed" /> <img
+src="../projects/scanrepo-web/docs/restore.png" alt="Restore report" /></p>
+<h2 id="tabs">Tabs</h2>
+<ul>
+<li><strong>Directions</strong> (opens first): Compose; Seal and print
+(cover, <code>C|</code>/<code>P|</code> codes, Print, Master, Keep);
+Photograph (cover included, don't crop the codes, camera or paste, the
+<code>---</code> line between payloads); the report
+(<strong>Sealed</strong>, <strong>Held</strong>,
+<strong>Rejected</strong>, <strong>Unread</strong>, and why
+<code>paper-git</code> stays Held); the next edition; what doesn't
+belong on the page.</li>
+<li><strong>Compose</strong>: repo, edition, branch, parent, message,
+author, time and zone; files with mode
+<code>100644</code>/<code>100755</code>/<code>120000</code>, typed or
+uploaded (binaries refused). Live byte/line/page counts per file.
+<strong>Seal edition</strong>, <strong>New edition</strong> (bumps
+edition, parent = this commit), <strong>Load paper-git
+sample</strong>.</li>
+<li><strong>Booklet</strong>: a printable cover plus one page per chunk
+(≤ 1800 bytes / 72 lines, split at line ends), each with its source and
+a QR code. <strong>Print</strong> (letter, one booklet page per sheet),
+<strong>Master</strong> (downloads the <code>.scanrepo</code> file),
+<strong>Keep</strong> (shelf), and <strong>Test the codes</strong>,
+which decodes every QR on screen with jsQR and restores from them.</li>
+<li><strong>Restore</strong>: camera/photos (decoded on-device via
+<code>BarcodeDetector</code> when available, else jsQR), open a master,
+or paste payloads separated by <code>---</code>. Report with per-object
+log; <strong>Download checkout (.zip)</strong> keeps exec bits; open the
+result in Compose or as a booklet.</li>
+<li><strong>Shelf</strong>: editions kept in this browser (open,
+download master, remove).</li>
+</ul>
+<h2 id="format-compatibility">Format compatibility</h2>
+<p>This implements the <code>scanrepo</code> v1 format (1.1 keys:
+<code>format</code>, <code>size</code>, <code>author</code>,
+<code>committer</code>, <code>message</code>, <code>commit_extra</code>,
+<code>parents</code>, <code>_b64</code> variants, <code>OMITTED</code>
+block, legacy 1.0 pages without <code>size</code>) from <a
+href="https://github.com/fitzyracing1/scanrepo-action">fitzyracing1/scanrepo-action</a>.
+Checked while building:</p>
+<ul>
+<li>the bundled <code>paper-git</code> edition 1 sample restores
+<strong>Held</strong> with the published blob and tree ids,</li>
+<li>a master sealed here verified <strong>commit_verified True</strong>
+with the action's Python <code>core.verify</code>,</li>
+<li><code>npm test</code> checks tree and commit ids against real
+<code>git</code> (same files, author, date, message).</li>
+</ul>
+<h2 id="run-it">Run it</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> http.server 8080      <span class="co"># open http://localhost:8080 (add ?demo to seal edition 2 and self-test the codes)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> test                         <span class="co"># node --test, zero dependencies</span></span></code></pre></div>
+<p>GitHub Pages: <code>.github/workflows/pages.yml</code> deploys the
+repo root on push to <code>main</code>.</p>
+<h2 id="limits-and-choices">Limits and choices</h2>
+<ul>
+<li>Text files only; binaries, submodules and &gt;100 KB files belong in
+an <code>OMITTED</code> block (restore honours one in a master; Compose
+doesn't create them).</li>
+<li>QR codes are byte mode, error correction M (L if needed), without
+the ECI 26 header the spec recommends. The vendored generator doesn't
+emit ECI. Payloads are UTF-8 and jsQR/zbar/phone scanners read them fine
+in testing; strict ECI-aware readers may still want it.</li>
+<li>On-screen decode is tested; photos of real paper depend on the
+camera and print quality (print at 100%, shoot flat).</li>
+<li>One commit per edition; parents are on the cover but earlier
+editions are not, so a restored checkout is a snapshot (the shelf is the
+history).</li>
+</ul>
+<h2 id="origin">Origin</h2>
+<p>Built from Joshua Almeida's Grok chat "Build web app from evidence"
+(<a
+href="https://grok.com/c/330f8474-f28c-4b5e-b2df-50825f9f78ef">https://grok.com/c/330f8474-f28c-4b5e-b2df-50825f9f78ef</a>,
+Oct 7, 2026; attachment <code>scanrepo.zip</code>). The original zip
+isn't in the capture. The format came from the public
+<code>scanrepo-action</code> repo.</p>
+<h2 id="license">License</h2>
+<p>MIT, see <a href="https://github.com/fitzyracing1/grok-builds/blob/main/projects/scanrepo-web/LICENSE">LICENSE</a>. Vendored:
+<code>vendor/qrcode.js</code> (qrcode-generator, MIT, © Kazuhiko Arase),
+<code>vendor/jsQR.js</code> (jsQR, Apache-2.0, © Cosmo Wolfe).</p>
+</main></body></html>

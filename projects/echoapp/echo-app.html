@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EchoApp · acts only after predicting and confirming an echo</title>
+<meta name="description" content="EchoApp is a new type of application: it predicts the echo of your intent, shows it, and executes only on confirmation. No silent side effects. No persistent world map. The loop is the product.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%230b0d12'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%2367e8f9'/%3E%3Ccircle cx='32' cy='32' r='15' fill='none' stroke='%2367e8f9' stroke-width='3' opacity='.6'/%3E%3Ccircle cx='32' cy='32' r='24' fill='none' stroke='%2367e8f9' stroke-width='3' opacity='.3'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#0b0d12;--panel:#12151d;--line:#232837;--ink:#e7eaf2;--muted:#8a91a6;--cyan:#67e8f9;--green:#4ade80;--red:#f87171;--amber:#fbbf24;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 50% -10%,#67e8f914,transparent),var(--bg);color:var(--ink);min-height:100vh}
+.wrap{max-width:1100px;margin:0 auto;padding:22px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{display:flex;gap:12px;align-items:center}.brand h1{margin:0;font-size:24px;letter-spacing:.5px}.brand p{margin:0;color:var(--muted);font-size:13px}
+.rings{width:38px;height:38px;border-radius:50%;background:radial-gradient(circle,var(--cyan) 0 16%,transparent 17% 36%,#67e8f988 37% 42%,transparent 43% 64%,#67e8f944 65% 70%,transparent 71%)}
+.loop{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0}
+.step{font-size:12px;padding:6px 10px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}.step.on{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 18px #67e8f933}
+.grid{display:grid;grid-template-columns:1.25fr 1fr;gap:16px}@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.panel h2{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted)}
+form{display:flex;gap:8px}input{flex:1;background:#0b0d12;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:inherit;font-size:16px}input:focus{outline:none;border-color:var(--cyan)}
+.btn{background:var(--cyan);color:#05232a;border:0;border-radius:10px;padding:11px 16px;font:inherit;font-weight:700;cursor:pointer}.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}.btn.red{background:var(--red);color:#2a0606}.btn:disabled{opacity:.35;cursor:default}
+.hints{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.hint{font-size:12px;color:var(--muted);border:1px dashed var(--line);border-radius:8px;padding:4px 8px;cursor:pointer}.hint:hover{color:var(--ink);border-color:var(--cyan)}
+.echo{margin-top:16px;border:1px solid var(--cyan);border-radius:14px;padding:16px;background:linear-gradient(160deg,#67e8f90f,transparent 60%)}
+.echo.none{border-color:var(--line);background:none}
+.echo h3{margin:0 0 4px;font-size:20px}.echo .kind{color:var(--cyan);font-size:12px;text-transform:uppercase;letter-spacing:2px}
+.echo ol{margin:12px 0;padding-left:20px;line-height:1.7}.echo .effects{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:14px;margin:10px 0}.echo .effects dt{color:var(--muted)}.echo .effects dd{margin:0}
+.conf{height:6px;border-radius:99px;background:var(--line);overflow:hidden;margin:6px 0 12px}.conf i{display:block;height:100%;background:var(--cyan)}
+.actions{display:flex;gap:8px;align-items:center}.kbd{font:11px ui-monospace,monospace;border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--muted)}
+.ledger{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;max-height:520px;overflow:auto}
+.ledger li{border:1px solid var(--line);border-left:3px solid var(--muted);border-radius:10px;padding:9px 11px;font-size:13px;line-height:1.45}
+.ledger li.confirmed{border-left-color:var(--green)}.ledger li.rejected{border-left-color:var(--red);opacity:.7}.ledger li.waiting{border-left-color:var(--amber)}
+.ledger .t{color:var(--muted);font-size:11px}.ledger .r{color:var(--ink);margin-top:3px}.ledger .m{font-size:11px;font-weight:700}.m.match{color:var(--green)}.m.diverged{color:var(--amber)}
+.state{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.state ul{margin:0;padding-left:18px;font-size:14px;line-height:1.6}.state .done{text-decoration:line-through;color:var(--muted)}
+.muted{color:var(--muted);font-size:13px;line-height:1.5}
+footer{color:var(--muted);font-size:12px;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="rings" aria-hidden="true"></div><div><h1>EchoApp</h1><p>Acts only after predicting and confirming an echo.</p></div></div>
+    <div class="actions"><button id="export" class="btn ghost">Export ledger</button></div>
+  </header>
+  <div class="loop" id="loop">
+    <span class="step" data-s="intent">1 · Receive intent</span><span class="step" data-s="predict">2 · Predict the echo</span><span class="step" data-s="confirm">3 · Confirm or reject</span><span class="step" data-s="execute">4 · Execute on confirmation</span><span class="step" data-s="return">5 · Append result, wait for the real return</span>
+  </div>
+  <div class="grid">
+    <section class="panel">
+      <h2>Intent</h2>
+      <form id="form"><input id="intent" autocomplete="off" placeholder="What do you intend? e.g. “remind me to call mom”" aria-label="Intent"><button class="btn">Predict echo</button></form>
+      <div class="hints" id="hints"></div>
+      <div id="echo"></div>
+      <div class="state">
+        <div><h2>Tasks (replayed)</h2><ul id="tasks"></ul></div>
+        <div><h2>Notes (replayed)</h2><ul id="notes"></ul></div>
+      </div>
+      <p class="muted">No persistent world map: tasks and notes are not stored as state. They are replayed from the confirmed echoes in the ledger every time.</p>
+    </section>
+    <section class="panel">
+      <h2>Ledger · append-only</h2>
+      <ul class="ledger" id="ledger"></ul>
+    </section>
+  </div>
+  <footer>Single file. Prediction is keyword-driven and runs entirely in this page; confirmed actions stay in this browser's local storage. Nothing runs without your confirmation.</footer>
+</div>
+
+<script id="echo-core">
+// ---- EchoCore: pure prediction / execution / replay. No DOM. ----
+(function (root) {
+  'use strict';
+  const now = () => Date.now();
+
+  // Safe arithmetic: numbers, + - * / % ^ ( ), no eval.
+  function calc(src) {
+    const toks = String(src).replace(/×/g, '*').replace(/÷/g, '/').match(/\d+(?:\.\d+)?|[-+*/%^()]/g);
+    if (!toks || toks.join('') !== String(src).replace(/\s+/g, '').replace(/×/g, '*').replace(/÷/g, '/')) throw new Error('not arithmetic');
+    let i = 0;
+    const peek = () => toks[i], eat = () => toks[i++];
+    function prim() { const t = eat(); if (t === '(') { const v = add(); if (eat() !== ')') throw new Error('missing )'); return v; } if (t === '-') return -prim(); if (t === '+') return prim(); const n = Number(t); if (Number.isNaN(n)) throw new Error('bad token'); return n; }
+    function pow() { const b = prim(); if (peek() === '^') { eat(); return b ** pow(); } return b; }
+    function mul() { let v = pow(); while (['*', '/', '%'].includes(peek())) { const o = eat(), r = pow(); v = o === '*' ? v * r : o === '/' ? v / r : v % r; } return v; }
+    function add() { let v = mul(); while (['+', '-'].includes(peek())) { const o = eat(), r = mul(); v = o === '+' ? v + r : v - r; } return v; }
+    const v = add(); if (i !== toks.length) throw new Error('trailing input'); return Math.round(v * 1e10) / 1e10;
+  }
+
+  const DUR = { s: 1, sec: 1, second: 1, seconds: 1, m: 60, min: 60, mins: 60, minute: 60, minutes: 60, h: 3600, hr: 3600, hour: 3600, hours: 3600 };
+
+  // Rules: first match wins. Each returns a prediction: the action path, effects, the predicted return.
+  const RULES = [
+    { kind: 'task', re: /^(?:remind me to|todo:?|to-?do:?|add (?:a )?task:?|task:?|i need to|don't let me forget to)\s+(.+)$/i,
+      make: (m) => ({ title: `Add task “${m[1]}”`, args: { text: m[1] }, path: ['Parse the task text', 'Append a task to the ledger', 'Replay tasks'], effects: { changes: 'tasks +1', external: 'none', reversible: 'yes: “done …” or reject next time' }, expect: `task “${m[1]}” is open`, confidence: 0.92 }) },
+    { kind: 'done', re: /^(?:done|finished|complete|check off|mark done)\s+(.+)$/i,
+      make: (m, st) => { const t = st.tasks.find((x) => !x.done && x.text.toLowerCase().includes(m[1].toLowerCase())); return { title: t ? `Mark “${t.text}” done` : `No open task matches “${m[1]}”`, args: { id: t && t.id }, path: ['Find the open task', 'Append a completion to the ledger', 'Replay tasks'], effects: { changes: t ? 'tasks: 1 closed' : 'nothing', external: 'none', reversible: 'yes' }, expect: t ? `“${t.text}” is done` : 'nothing changes', confidence: t ? 0.9 : 0.15 }; } },
+    { kind: 'note', re: /^(?:note:?|remember(?: that)?|jot(?: down)?|write down)\s+(.+)$/i,
+      make: (m) => ({ title: `Keep note “${m[1]}”`, args: { text: m[1] }, path: ['Append a note to the ledger', 'Replay notes'], effects: { changes: 'notes +1', external: 'none', reversible: 'yes: “forget note …”' }, expect: `note saved (${m[1].length} chars)`, confidence: 0.9 }) },
+    { kind: 'forget-note', re: /^(?:forget|delete|remove) note\s+(.+)$/i,
+      make: (m, st) => { const n = st.notes.find((x) => x.text.toLowerCase().includes(m[1].toLowerCase())); return { title: n ? `Forget note “${n.text}”` : `No note matches “${m[1]}”`, args: { id: n && n.id }, path: ['Find the note', 'Append a removal to the ledger', 'Replay notes'], effects: { changes: n ? 'notes −1' : 'nothing', external: 'none', reversible: 'the ledger still holds the original' }, expect: n ? 'note removed from the replay' : 'nothing changes', confidence: n ? 0.88 : 0.15 }; } },
+    { kind: 'timer', re: /^(?:set (?:a )?)?(?:timer|alarm|wake me|ping me)(?: for| in)?\s+(\d+(?:\.\d+)?)\s*(s|sec|seconds?|m|mins?|minutes?|h|hr|hours?)\b(?:\s+(?:to|for|:)\s*(.+))?$/i,
+      make: (m) => { const secs = Math.round(Number(m[1]) * DUR[m[2].toLowerCase()]); return { title: `Timer for ${m[1]} ${m[2]}${m[3] ? ` · ${m[3]}` : ''}`, args: { secs, label: m[3] || '' }, path: ['Schedule a timer in this page', `Wait ${secs}s`, 'Return when it fires'], effects: { changes: 'one pending timer', external: 'a notification when it fires (if allowed)', reversible: 'reload cancels it' }, expect: `fires at ${new Date(now() + secs * 1000).toLocaleTimeString()}`, confidence: 0.95, async: true }; } },
+    { kind: 'calc', re: /^(?:calc(?:ulate)?|compute|what(?:'s| is))\s+([\d\s+\-*/%^().×÷]+)\??$/i,
+      make: (m) => { let v; try { v = calc(m[1].trim()); } catch (e) { v = null; } return { title: `Calculate ${m[1].trim()}`, args: { expr: m[1].trim() }, path: ['Parse the arithmetic (no eval)', 'Evaluate', 'Show the number'], effects: { changes: 'none', external: 'none', reversible: 'nothing to undo' }, expect: v == null ? 'an error' : `= ${v}`, confidence: v == null ? 0.2 : 0.97 }; } },
+    { kind: 'open', re: /^(?:open|go to|visit|browse)\s+((?:https?:\/\/)?[\w-]+(?:\.[\w-]+)+(?:\/\S*)?)$/i,
+      make: (m) => { const url = /^https?:/i.test(m[1]) ? m[1] : `https://${m[1]}`; return { title: `Open ${url}`, args: { url }, path: ['Open a new tab', `Navigate to ${new URL(url).host}`], effects: { changes: 'none here', external: `a new tab loads ${new URL(url).host}`, reversible: 'close the tab' }, expect: 'a new tab opens', confidence: 0.85 }; } },
+    { kind: 'search', re: /^(?:search(?: for)?|look up|google|find)\s+(.+)$/i,
+      make: (m) => ({ title: `Search the web for “${m[1]}”`, args: { q: m[1], url: `https://duckduckgo.com/?q=${encodeURIComponent(m[1])}` }, path: ['Build a search URL', 'Open it in a new tab'], effects: { changes: 'none here', external: 'a search engine receives your query', reversible: 'close the tab' }, expect: 'a results tab opens', confidence: 0.8 }) },
+    { kind: 'copy', re: /^copy\s+(.+)$/i,
+      make: (m) => ({ title: `Copy “${m[1]}” to the clipboard`, args: { text: m[1] }, path: ['Write to the clipboard'], effects: { changes: 'your clipboard is replaced', external: 'clipboard', reversible: 'no: the old clipboard is gone' }, expect: `clipboard holds ${m[1].length} chars`, confidence: 0.9 }) },
+    { kind: 'transform', re: /^(uppercase|lowercase|reverse|count words in|slugify)\s+(.+)$/i,
+      make: (m) => { const op = m[1].toLowerCase(), s = m[2]; const out = op === 'uppercase' ? s.toUpperCase() : op === 'lowercase' ? s.toLowerCase() : op === 'reverse' ? [...s].reverse().join('') : op === 'slugify' ? s.toLowerCase().normalize('NFKD').replace(/[^\w\s-]/g, '').trim().replace(/[\s_]+/g, '-') : String(s.trim().split(/\s+/).length); return { title: `${op} “${s}”`, args: { op, s }, path: ['Transform the text in this page'], effects: { changes: 'none', external: 'none', reversible: 'nothing to undo' }, expect: op === 'count words in' ? `${out} words` : `“${out}”`, confidence: 0.95 }; } },
+    { kind: 'clear-done', re: /^(?:clear|archive|clean up) (?:done|finished|completed)(?: tasks)?$/i,
+      make: (m, st) => { const n = st.tasks.filter((t) => t.done).length; return { title: `Clear ${n} done task${n === 1 ? '' : 's'}`, args: {}, path: ['Append a clear marker to the ledger', 'Replay tasks without done ones'], effects: { changes: `tasks −${n}`, external: 'none', reversible: 'the ledger still holds them' }, expect: `${n} removed from the replay`, confidence: n ? 0.9 : 0.3 }; } },
+    { kind: 'forget-all', re: /^(?:forget everything|reset|wipe (?:the )?ledger|start over)$/i,
+      make: (m, st) => ({ title: 'Forget everything', args: {}, path: ['Erase the ledger from local storage', 'Start a new, empty ledger'], effects: { changes: `${st.size} ledger entries erased`, external: 'none', reversible: 'NO: export first if you want a copy' }, expect: 'an empty ledger', confidence: 0.9, danger: true }) },
+  ];
+
+  function predict(intent, state) {
+    const text = String(intent || '').trim().replace(/\s+/g, ' ');
+    if (!text) return null;
+    for (const r of RULES) {
+      const m = text.match(r.re);
+      if (m) return Object.assign({ intent: text, kind: r.kind, at: now() }, r.make(m, state));
+    }
+    return { intent: text, kind: 'unknown', at: now(), title: 'No echo predicted', args: {}, path: ['Nothing matches this intent'], effects: { changes: 'none', external: 'none', reversible: '—' }, expect: 'nothing runs', confidence: 0 };
+  }
+
+  // Execution yields the result synchronously; async kinds (timer) also return a promise of the real return.
+  function execute(p, io) {
+    io = io || {};
+    switch (p.kind) {
+      case 'task': return { result: `task “${p.args.text}” is open` };
+      case 'done': return p.args.id ? { result: `“${(io.state.tasks.find((t) => t.id === p.args.id) || {}).text}” is done` } : { result: 'nothing changes' };
+      case 'note': return { result: `note saved (${p.args.text.length} chars)` };
+      case 'forget-note': return { result: p.args.id ? 'note removed from the replay' : 'nothing changes' };
+      case 'calc': try { return { result: `= ${calc(p.args.expr)}` }; } catch (e) { return { result: 'an error', error: e.message }; }
+      case 'transform': return { result: p.expect };
+      case 'open': case 'search': { const w = io.open ? io.open(p.args.url) : null; return { result: w === false ? 'the browser blocked the tab' : p.kind === 'open' ? 'a new tab opens' : 'a results tab opens' }; }
+      case 'copy': return { result: `clipboard holds ${p.args.text.length} chars`, later: io.copy ? io.copy(p.args.text).then(() => `clipboard holds ${p.args.text.length} chars`, () => 'clipboard refused the write') : null };
+      case 'clear-done': return { result: p.expect };
+      case 'forget-all': return { result: 'an empty ledger' };
+      case 'timer': {
+        const due = now() + p.args.secs * 1000;
+        return { result: `timer set for ${new Date(due).toLocaleTimeString()}`, due, later: new Promise((ok) => (io.setTimeout || setTimeout)(() => ok(`fired at ${new Date(now()).toLocaleTimeString()}${p.args.label ? ` · ${p.args.label}` : ''}`), p.args.secs * 1000)) };
+      }
+      default: return { result: 'nothing runs' };
+    }
+  }
+
+  // State is never stored: it is replayed from confirmed echoes.
+  function replay(ledger) {
+    const tasks = [], notes = [];
+    for (const e of ledger) {
+      if (e.decision !== 'confirmed') continue;
+      const a = e.args || {};
+      if (e.kind === 'task') tasks.push({ id: e.id, text: a.text, done: false });
+      if (e.kind === 'done') { const t = tasks.find((x) => x.id === a.id); if (t) t.done = true; }
+      if (e.kind === 'clear-done') for (let i = tasks.length - 1; i >= 0; i--) if (tasks[i].done) tasks.splice(i, 1);
+      if (e.kind === 'note') notes.push({ id: e.id, text: a.text });
+      if (e.kind === 'forget-note') { const i = notes.findIndex((x) => x.id === a.id); if (i >= 0) notes.splice(i, 1); }
+    }
+    return { tasks, notes, size: ledger.length };
+  }
+
+  // Did the real return match the predicted echo?
+  function echoMatches(expect, actual) {
+    if (expect === actual) return true;
+    if (/^fires at /.test(expect) && /^fired at /.test(actual)) return true;
+    if (/^timer set/.test(actual) && /^fires at /.test(expect)) return true;
+    return false;
+  }
+
+  let seq = 0;
+  const entry = (p, decision) => ({ id: `${now().toString(36)}-${(seq++).toString(36)}`, at: now(), intent: p.intent, kind: p.kind, title: p.title, args: p.args, expect: p.expect, confidence: p.confidence, decision });
+
+  root.EchoCore = { predict, execute, replay, entry, calc, echoMatches, RULES };
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+
+<script>
+(function () {
+  const { predict, execute, replay, entry, echoMatches } = window.EchoCore;
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const KEY = 'echoapp.ledger.v1';
+  let ledger = []; try { ledger = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { ledger = []; }
+  let pending = null;
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(ledger)); } catch (e) {} };
+  const stage = (s) => document.querySelectorAll('.step').forEach((el) => el.classList.toggle('on', el.dataset.s === s));
+
+  const HINTS = ['remind me to call mom', 'note the wifi code is on the fridge', 'timer 10 s to stretch', 'calculate (19.99 * 3) - 5%2', 'done call mom', 'search predictive echo robotics', 'uppercase the loop is the product', 'clear done tasks'];
+  $('hints').innerHTML = HINTS.map((h) => `<span class="hint">${esc(h)}</span>`).join('');
+  $('hints').onclick = (e) => { if (e.target.classList.contains('hint')) { $('intent').value = e.target.textContent; $('form').requestSubmit(); } };
+
+  function render() {
+    const st = replay(ledger);
+    $('tasks').innerHTML = st.tasks.length ? st.tasks.map((t) => `<li class="${t.done ? 'done' : ''}">${esc(t.text)}</li>`).join('') : '<li class="muted">none</li>';
+    $('notes').innerHTML = st.notes.length ? st.notes.map((n) => `<li>${esc(n.text)}</li>`).join('') : '<li class="muted">none</li>';
+    $('ledger').innerHTML = ledger.length ? ledger.slice().reverse().map((e) => `<li class="${e.decision}${e.waiting ? ' waiting' : ''}">
+      <div class="t">${new Date(e.at).toLocaleString()} · ${esc(e.kind)} · ${e.decision}</div><div><b>${esc(e.intent)}</b></div>
+      <div class="t">echo: ${esc(e.expect)}</div>${e.result ? `<div class="r">→ ${esc(e.result)}</div>` : ''}
+      ${e.real ? `<div class="r">⟲ real return: ${esc(e.real)}</div>` : e.waiting ? '<div class="r">⟲ waiting for the real return…</div>' : ''}
+      ${e.decision === 'confirmed' && e.match != null ? `<div class="m ${e.match ? 'match' : 'diverged'}">${e.match ? 'echo matched' : 'echo diverged'}</div>` : ''}</li>`).join('') : '<li class="muted">Empty. Every intent you confirm or reject lands here.</li>';
+  }
+
+  function showEcho(p) {
+    pending = p;
+    if (!p) { $('echo').innerHTML = ''; stage('intent'); return; }
+    stage('confirm');
+    const none = p.kind === 'unknown';
+    $('echo').innerHTML = `<div class="echo ${none ? 'none' : ''}"><div class="kind">predicted echo · ${esc(p.kind)}</div><h3>${esc(p.title)}</h3>
+      <div class="conf" title="confidence"><i style="width:${Math.round(p.confidence * 100)}%"></i></div>
+      <ol>${p.path.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>
+      <dl class="effects"><dt>Changes</dt><dd>${esc(p.effects.changes)}</dd><dt>Outside this page</dt><dd>${esc(p.effects.external)}</dd><dt>Reversible</dt><dd>${esc(p.effects.reversible)}</dd><dt>Expected return</dt><dd>${esc(p.expect)}</dd></dl>
+      <div class="actions"><button id="yes" class="btn ${p.danger ? 'red' : ''}" ${none || p.confidence < 0.25 ? 'disabled' : ''}>Confirm <span class="kbd">Y</span></button><button id="no" class="btn ghost">Reject <span class="kbd">N</span></button>
+      <span class="muted">${none ? 'Try one of the examples above.' : 'Nothing has happened yet.'}</span></div></div>`;
+    $('yes').onclick = confirm; $('no').onclick = reject;
+    if (!none && p.confidence >= 0.25) $('yes').focus();
+  }
+
+  function confirm() {
+    if (!pending || pending.kind === 'unknown') return;
+    const p = pending; pending = null;
+    stage('execute');
+    if (p.kind === 'forget-all') { ledger = []; save(); }
+    const e = entry(p, 'confirmed');
+    const out = execute(p, { state: replay(ledger), open: (u) => !!window.open(u, '_blank', 'noopener'), copy: (t) => navigator.clipboard.writeText(t) });
+    e.result = out.result;
+    e.match = out.later ? null : echoMatches(p.expect, out.result);
+    if (out.later) e.waiting = true;
+    ledger.push(e); save(); render(); showEcho(null); stage('return');
+    if (out.later) out.later.then((real) => {
+      e.real = real; e.waiting = false; e.match = echoMatches(p.expect, real); save(); render();
+      if (p.kind === 'timer' && 'Notification' in window && Notification.permission === 'granted') new Notification('EchoApp', { body: real });
+    });
+    if (p.kind === 'timer' && 'Notification' in window && Notification.permission === 'default') Notification.requestPermission();
+    $('intent').focus();
+  }
+  function reject() { if (!pending) return; ledger.push(entry(pending, 'rejected')); save(); render(); showEcho(null); $('intent').focus(); }
+
+  $('form').onsubmit = (ev) => { ev.preventDefault(); stage('predict'); const p = predict($('intent').value, replay(ledger)); $('intent').value = ''; setTimeout(() => showEcho(p), 120); };
+  document.addEventListener('keydown', (ev) => {
+    if (!pending || ev.target === $('intent')) return;
+    if (ev.key === 'y' || ev.key === 'Y') { ev.preventDefault(); if (!$('yes').disabled) confirm(); }
+    if (ev.key === 'n' || ev.key === 'N' || ev.key === 'Escape') { ev.preventDefault(); reject(); }
+  });
+  $('export').onclick = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(ledger, null, 2)], { type: 'application/json' })); a.download = `echoapp-ledger-${new Date().toISOString().slice(0, 10)}.json`; a.click(); };
+
+  // Timers do not survive a reload: close them out honestly.
+  for (const e of ledger) if (e.waiting) { e.waiting = false; e.real = 'lost: the page was closed before it fired'; e.match = false; }
+  save(); render(); stage('intent');
+  const q = new URLSearchParams(location.search).get('intent'); if (q) { $('intent').value = q; $('form').requestSubmit(); }
+})();
+</script>
+</body>
+</html>

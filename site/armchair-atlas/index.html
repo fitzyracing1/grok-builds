@@ -1,0 +1,88 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Armchair · Grok Builds</title><meta name="description" content="A cinematic atlas for places near the chair and far from it. Static site, no build, no API key: Leaflet + OpenStreetMap tiles, Nominatim search, Overpass for places on the map, and Wikipedia for…"><link rel="canonical" href="https://fitzyracing1.github.io/grok-builds/armchair-atlas/">
+<meta property="og:type" content="website"><meta property="og:title" content="Armchair · Grok Builds"><meta property="og:description" content="A cinematic atlas for places near the chair and far from it. Static site, no build, no API key: Leaflet + OpenStreetMap tiles, Nominatim search, Overpass for places on the map, and Wikipedia for…"><meta property="og:url" content="https://fitzyracing1.github.io/grok-builds/armchair-atlas/"><meta property="og:site_name" content="Grok Builds by Joshua Almeida"><meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareSourceCode", "name": "Armchair", "description": "A cinematic atlas for places near the chair and far from it. Static site, no build, no API key: Leaflet + OpenStreetMap tiles, Nominatim search, Overpass for places on the map, and Wikipedia for\u2026", "url": "https://fitzyracing1.github.io/grok-builds/armchair-atlas/", "codeRepository": "https://github.com/fitzyracing1/armchair-atlas", "license": "https://opensource.org/licenses/MIT", "author": {"@type": "Person", "name": "Joshua Almeida", "url": "https://github.com/fitzyracing1"}}</script><style>body{font:16px/1.6 system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;color:#222}a{color:#0b57d0}img{max-width:100%}pre{background:#f5f5f5;padding:.8rem;overflow:auto}code{background:#f5f5f5}li{margin:.4rem 0}nav{margin-bottom:1rem}.card{border:1px solid #ddd;border-radius:8px;padding:1rem;margin:1rem 0}table{border-collapse:collapse}td,th{border:1px solid #ddd;padding:.3rem .5rem}</style></head><body><nav><a href="../">← All Grok Builds</a></nav><p><a href="https://github.com/fitzyracing1/armchair-atlas">Original repo</a> · <a href="https://github.com/fitzyracing1/grok-builds/tree/main/projects/armchair-atlas">Source in this repo</a> · <a href="https://fitzyracing1.github.io/armchair-atlas/">Live demo</a></p><main><h1 id="armchair">Armchair</h1>
+<p><strong>Live:</strong> <a
+href="https://fitzyracing1.github.io/armchair-atlas/">https://fitzyracing1.github.io/armchair-atlas/</a>
+· <strong>Repo:</strong> <a
+href="https://github.com/fitzyracing1/armchair-atlas">https://github.com/fitzyracing1/armchair-atlas</a></p>
+<p>A cinematic atlas for places near the chair and far from it. Static
+site, no build, <strong>no API key</strong>: Leaflet + OpenStreetMap
+tiles, Nominatim search, Overpass for places on the map, and Wikipedia
+for nearby articles and summaries. Google is optional.</p>
+<p><img src="../projects/armchair-atlas/docs/screenshot.png"
+alt="Armchair: nearby castles around Lisbon, ranked by 4/c²" /></p>
+<h2 id="what-it-does">What it does</h2>
+<ul>
+<li><strong>Today</strong>: opens on a place of the day from the
+hand-picked atlas (40 places; Sep 18, 2026, the day the chat built it,
+is San Pedro de Atacama). Fly there or put the chair there.</li>
+<li><strong>Nearby</strong>: share your location (📍 Me) or search any
+city. The chair (🪑) moves there and Armchair gathers attractions,
+museums, viewpoints, castles, ruins, peaks, beaches, waterfalls, parks…
+from <strong>OpenStreetMap (Overpass)</strong> plus <strong>Wikipedia
+geosearch</strong>, within 2–25 km. An optional "Looking for…" keeps
+only places whose name or kind matches (castle, beach, museum).</li>
+<li><strong>Ranking</strong> (the chat's <code>4 / c²</code>):
+<ul>
+<li><strong>Chair</strong>: <code>score = 4 / c² + name match</code>,
+with <code>c</code> = great-circle distance from the chair in km
+(floored at 50 m), name match ∈ [0, 1] (exact 1, prefix 0.75, substring
+0.5, partial words). Nearer pins weigh more: twice as far is a quarter
+of the weight. The top three get highlighted pins; every row shows its
+score.</li>
+<li><strong>Classic</strong> ("save old version"): the original
+first-found merge: Wikipedia results first, then the map, duplicates
+dropped.</li>
+</ul></li>
+<li><strong>Far away</strong>: mood chips (Quiet corners, Old stone,
+Edge of the map, Warm harbors, Ice and cold, Deserts at night, Strange
+earth), <strong>🎲 Somewhere else</strong> for a random leap, or the
+<strong>full atlas</strong>.</li>
+<li><strong>Ask</strong>: tell the guide a climate, a kind of silence, a
+feeling ("somewhere cold and silent at the edge of the world", "a harbor
+at dusk"). It matches your words against the atlas and flies the map to
+real places (Point Nemo, Cape Horn, Fes medina, Valletta at dusk…).</li>
+<li><strong>Google, on any pin</strong>: Google Maps, Satellite, Street
+View and Directions links (no key needed), plus OpenStreetMap. With an
+optional <strong>Maps Embed API key</strong> (footer → "Google Maps
+key", stored in the browser, or <code>?gmapsKey=</code>), pins also
+embed Google satellite.</li>
+<li><strong>Saved</strong> places stay on the device
+(localStorage).</li>
+<li>Wikipedia summaries and photos load when you open a pin.</li>
+</ul>
+<p>URL shortcuts: <code>?q=Lisbon&amp;want=castle</code> runs a nearby
+search, <code>?ask=quiet+old+stone</code> asks the guide.</p>
+<h2 id="run-it">Run it</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> http.server 8080    <span class="co"># open http://localhost:8080 (ES modules need http://)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> test                       <span class="co"># node --test: distances, 4/c², classic merge, guide, adapters</span></span></code></pre></div>
+<p>Deploy to GitHub Pages as-is:
+<code>.github/workflows/pages.yml</code> publishes the repo root on push
+to <code>main</code> (Settings → Pages → Source: GitHub Actions).
+Leaflet 1.9.4 is vendored in <code>vendor/leaflet</code>
+(BSD-2-Clause).</p>
+<h2 id="choices-and-limits">Choices and limits</h2>
+<ul>
+<li>The chat produced three zips (Classic, Chair rank, GitHub Pages).
+Here they are one app: Chair and Classic are a toggle and the whole
+thing is Pages-ready.</li>
+<li>The "agent"/guide is a local keyword matcher over the curated atlas.
+No LLM, so no key and no cost.</li>
+<li>Public Overpass/Nominatim/Wikipedia servers are rate-limited and
+occasionally slow. Armchair falls back to a second Overpass mirror and
+says which source did not answer. Nominatim is only called when you
+press Go.</li>
+<li>OSM tagging varies by city (in Lisbon many palaces are tagged
+<code>historic=castle</code>, as in the screenshot).</li>
+</ul>
+<h2 id="origin">Origin</h2>
+<p>Built from Joshua Almeida's Grok chat "Armchair Traveler AI Agent
+with Google Integration" (<a
+href="https://grok.com/c/b1d6f243-e65b-4a0a-9773-2b80581f7a8e">https://grok.com/c/b1d6f243-e65b-4a0a-9773-2b80581f7a8e</a>,
+Sep 18, 2026). Note: a private repo <code>fitzyracing1/armchair</code>
+already exists, so this build is named <code>armchair-atlas</code>.</p>
+<h2 id="license">License</h2>
+<p>MIT, see <a href="https://github.com/fitzyracing1/grok-builds/blob/main/projects/armchair-atlas/LICENSE">LICENSE</a>. Map data © OpenStreetMap
+contributors (ODbL). Wikipedia content CC BY-SA.</p>
+</main></body></html>

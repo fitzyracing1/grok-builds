@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>STEM Student Physics Notebook Analysis · Notebook</title><meta name="description" content="Turning a physics notebook page into a SymPy program: v = 2πr/T, vector magnitude, and KE/PE/momentum placeholders."><link rel="canonical" href="https://fitzyracing1.github.io/grok-builds/notebook/site/physics-notebook-program.html">
+<meta property="og:type" content="article"><meta property="og:title" content="STEM Student Physics Notebook Analysis · Notebook"><meta property="og:description" content="Turning a physics notebook page into a SymPy program: v = 2πr/T, vector magnitude, and KE/PE/momentum placeholders."><meta property="og:url" content="https://fitzyracing1.github.io/grok-builds/notebook/site/physics-notebook-program.html"><meta property="og:site_name" content="Grok Builds by Joshua Almeida"><meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "STEM Student Physics Notebook Analysis \u00b7 Notebook", "description": "Turning a physics notebook page into a SymPy program: v = 2\u03c0r/T, vector magnitude, and KE/PE/momentum placeholders.", "url": "https://fitzyracing1.github.io/grok-builds/notebook/site/physics-notebook-program.html", "author": {"@type": "Person", "name": "Joshua Almeida"}, "isPartOf": "https://fitzyracing1.github.io/grok-builds/notebook/"}</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site"><a class="brand" href="index.html">Notebook</a><span class="tag">Joshua Almeida's math &amp; physics explorations</span></header>
+<main>
+
+<nav class="crumbs"><a href="index.html">Notebook</a> › <a href="index.html#mechanics">Classical mechanics &amp; relativity</a></nav>
+<article>
+<h1>STEM Student Physics Notebook Analysis</h1>
+<p class="meta">Chat date: Jan 8, 2026 · <a href="https://grok.com/c/39c856e8-ca08-426f-b6f7-388f9a6b562d" rel="noopener">Original chat on grok.com ↗</a> · <a href="entries/physics-notebook-program.md">Raw capture (.md)</a></p>
+<p class="badges"></p>
+
+<aside class="callout callout-note"><strong>Capture note.</strong> A physics-notebook interpretation with circular-motion relations (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>=</mo><mn>2</mn><mi>π</mi><mi>r</mi><mi mathvariant="normal">/</mi><mi>T</mi></mrow><annotation encoding="application/x-tex">v = 2\pi r/T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.0359em;">π</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span></span></span></span>), vector magnitude, kinetic/potential energy and momentum placeholders, written as a SymPy/NumPy program. The second turn turns it into a Pygame space game; that is summarized only.</aside>
+<h2>Joshua&#39;s messages (verbatim)</h2>
+<ol>
+<li><code>turn into computer program</code></li>
+<li><code>use this as the beginnings of a computer</code></li>
+</ol>
+<h2>Grok&#39;s response (as captured)</h2>
+<p><strong>Turn 1: physics notebook program (verbatim)</strong></p>
+<p>Grok said the program computes the visible calculations, equations, and physics concepts from the notebook pages: simple arithmetic, vector magnitude (from i/j components such as <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>−</mo><mn>2</mn><mi>j</mi></mrow><annotation encoding="application/x-tex">i - 2j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7429em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.0572em;">j</span></span></span></span>), circular-motion period and speed (from the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">\pi r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">π</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span></span></span></span> terms), a momentum placeholder, and an energy placeholder.</p>
+<pre><code class="language-python">import sympy as sp
+import numpy as np
+from sympy import symbols, pi, sqrt, Eq, solve
+
+print(&quot;Physics Notebook Calculations Program&quot;)
+print(&quot;Based on hand-drawn notes with doodles 🚀\n&quot;)
+
+# 1. Simple numerical calculations from top/page
+print(&quot;1. Numerical calculations:&quot;)
+print(f&quot;12.9 - 7 = {12.9 - 7}&quot;)
+print(f&quot;10 - 7 = {10 - 7}&quot;)
+print(f&quot;44 × 23 = {44 * 23}&quot;)
+print(f&quot;Possible tank-related: light tank size ~10 ft, differences like 5.9 or 3 units\n&quot;)
+
+# 2. Vector calculation (from visible i - 2j or similar)
+print(&quot;2. Vector magnitude (e.g., displacement or velocity vector like -2î - 2ĵ):&quot;)
+vec_magnitude = sqrt((-2)**2 + (-2)**2)
+print(f&quot;Magnitude = √(4 + 4) = {vec_magnitude} ≈ {vec_magnitude.evalf()}\n&quot;)
+
+# 3. Circular motion (from π r terms, period T, speed v = 2πr/T)
+print(&quot;3. Circular motion examples:&quot;)
+r, v, T = symbols(&#39;r v T&#39;)
+
+# General formulas
+period_eq = Eq(T, 2 * pi * r / v)
+speed_eq = Eq(v, 2 * pi * r / T)
+
+print(&quot;General period: T = 2πr / v&quot;)
+print(&quot;General speed: v = 2πr / T\n&quot;)
+
+# Example numerical values (assume r = 10 units, T = 12.9 units for calculation)
+example_r = 10
+example_T = 12.9
+example_v = 2 * np.pi * example_r / example_T
+print(f&quot;Example: r = {example_r}, T ≈ {example_T}&quot;)
+print(f&quot;v = 2πr / T ≈ {example_v:.2f} units/time\n&quot;)
+
+# 4. Momentum magnitude placeholder (from M o M = ?)
+print(&quot;4. Momentum magnitude placeholder:&quot;)
+p_x, p_y = symbols(&#39;p_x p_y&#39;)
+p_mag = sqrt(p_x**2 + p_y**2)
+print(&quot;Magnitude of momentum |p| = √(p_x² + p_y²)&quot;)
+# Example if components visible like 7 and something
+print(&quot;Example if one component ~7: need full vector for exact\n&quot;)
+
+# 5. Energy placeholder (E = ?, common in orbits/circular motion)
+print(&quot;5. Energy placeholder:&quot;)
+m, g, h = symbols(&#39;m g h&#39;)  # or kinetic
+ke = (1/2) * m * v**2
+pe = m * g * h
+print(&quot;Possible kinetic energy: KE = (1/2)mv²&quot;)
+print(&quot;Possible potential: PE = mgh&quot;)
+print(&quot;Total E = KE + PE (conservation often used)\n&quot;)
+
+print(&quot;Bonus: Your space doodles are epic! Add more rockets. 🌌&quot;)
+</code></pre>
+<p>Sample output (as stated by Grok):</p>
+<pre><code>Physics Notebook Calculations Program
+Based on hand-drawn notes with doodles 🚀
+
+1. Numerical calculations:
+12.9 - 7 = 5.9
+10 - 7 = 3
+44 × 23 = 1012
+Possible tank-related: light tank size ~10 ft, differences like 5.9 or 3 units
+
+2. Vector magnitude (e.g., displacement or velocity vector like -2î - 2ĵ):
+Magnitude = √8 = 2√2 ≈ 2.828
+
+3. Circular motion examples:
+General period: T = 2πr / v
+General speed: v = 2πr / T
+
+Example: r = 10, T ≈ 12.9
+v = 2πr / T ≈ 4.87 units/time
+</code></pre>
+<p>Note: the program&#39;s &quot;energy&quot; and &quot;momentum&quot; parts are placeholders (they define <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mi>E</mi><mo>=</mo><mstyle scriptlevel="0" displaystyle="false"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mi>m</mi><msup><mi>v</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">KE = \tfrac12 mv^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0715em;">K</span><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathnormal">m</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mi>E</mi><mo>=</mo><mi>m</mi><mi>g</mi><mi>h</mi></mrow><annotation encoding="application/x-tex">PE = mgh</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.1389em;">P</span><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mord mathnormal">h</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∣</mi><mi>p</mi><mi mathvariant="normal">∣</mi><mo>=</mo><msqrt><mrow><msubsup><mi>p</mi><mi>x</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>p</mi><mi>y</mi><mn>2</mn></msubsup></mrow></msqrt></mrow><annotation encoding="application/x-tex">|p| = \sqrt{p_x^2 + p_y^2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathnormal">p</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.84em;vertical-align:-0.6765em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.1635em;"><span class="svg-align" style="top:-3.8em;"><span class="pstrut" style="height:3.8em;"></span><span class="mord" style="padding-left:1em;"><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.453em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.453em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">y</span></span></span><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3831em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.1235em;"><span class="pstrut" style="height:3.8em;"></span><span class="hide-tail" style="min-width:1.02em;height:1.88em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.88em" viewBox="0 0 400000 1944" preserveAspectRatio="xMinYMin slice"><path d="M983 90
+l0 -0
+c4,-6.7,10,-10,18,-10 H400000v40
+H1013.1s-83.4,268,-264.1,840c-180.7,572,-277,876.3,-289,913c-4.7,4.7,-12.7,7,-24,7
+s-12,0,-12,0c-1.3,-3.3,-3.7,-11.7,-7,-25c-35.3,-125.3,-106.7,-373.3,-214,-744
+c-10,12,-21,25,-33,39s-32,39,-32,39c-6,-5.3,-15,-14,-27,-26s25,-30,25,-30
+c26.7,-32.7,52,-63,76,-91s52,-60,52,-60s208,722,208,722
+c56,-175.3,126.3,-397.3,211,-666c84.7,-268.7,153.8,-488.2,207.5,-658.5
+c53.7,-170.3,84.5,-266.8,92.5,-289.5z
+M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.6765em;"><span></span></span></span></span></span></span></span></span> symbolically and print them, without computing values).</p>
+<p><strong>Turn 2: &quot;use this as the beginnings of a computer&quot;</strong></p>
+<p>Grok turned the notebook content (planet with rings, a circular-orbit object using <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>=</mo><mn>2</mn><mi>π</mi><mi>r</mi><mi mathvariant="normal">/</mi><mi>T</mi></mrow><annotation encoding="application/x-tex">v = 2\pi r/T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">v</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.0359em;">π</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.1389em;">T</span></span></span></span>, a rocket with basic gravity and projectile motion, astronaut doodles) into a runnable Pygame space simulation (<code>space_notebook_sim.py</code>). The code is not captured in full here.</p>
+
+</article>
+<nav class="pager"><a href="pi-squared-energy-mass.html">← π² Einstein energy-mass relation</a><a href="bearing-odometry.html">Robot using free spin of bearings to calculate motion →</a></nav>
+</main>
+<footer class="site">
+<p>Personal notes and explorations from Joshua Almeida's chats on grok.com. They are not peer reviewed, and the speculative pieces are labeled. <a href="https://github.com/fitzyracing1/notebook">Source on GitHub</a> · MIT License</p>
+</footer>
+</body>
+</html>

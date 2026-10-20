@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Garage · every public repo of fitzyracing1</title>
+<meta name="description" content="Garage is a public index of the GitHub account fitzyracing1: search, filter and sort every public repository.">
+<meta property="og:title" content="Garage · fitzyracing1">
+<meta property="og:description" content="Every public repo of fitzyracing1, searchable.">
+<link rel="icon" href="assets/icon.svg">
+<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="brand"><img src="assets/icon.svg" width="40" height="40" alt=""><div><h1>Garage</h1><p id="tag">Every public repo of <a id="userLink" href="https://github.com/fitzyracing1">fitzyracing1</a>.</p></div></div>
+    <div id="stats" class="stats"></div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="bench"><h2>On the bench</h2><div id="bench" class="bench-row"></div></section>
+  <section class="controls">
+    <div id="shelves" class="shelves" role="tablist"></div>
+    <div class="filters">
+      <input id="q" type="search" placeholder="Search name, language, topic…  (lang:python  topic:cli)" aria-label="Search">
+      <select id="lang" aria-label="Language"><option value="">All languages</option></select>
+      <label class="check"><input id="described" type="checkbox"> Described</label>
+      <select id="sort" aria-label="Sort">
+        <option value="updated">Recently updated</option><option value="created">Newest</option><option value="stars">Stars</option><option value="name">Name</option>
+      </select>
+    </div>
+    <p id="status" class="status"></p>
+  </section>
+  <section id="grid" class="grid" aria-live="polite"></section>
+</main>
+<aside id="drawer" class="drawer" hidden>
+  <button id="close" class="close" aria-label="Close">×</button>
+  <div id="detail"></div>
+</aside>
+<footer class="wrap">Fetched live from the GitHub API in your browser (falls back to a bundled snapshot). Private repos never appear. <span id="source"></span> · <a href="https://github.com/fitzyracing1">github.com/fitzyracing1</a> · MIT</footer>
+<script type="module" src="src/app.js"></script>
+</body>
+</html>

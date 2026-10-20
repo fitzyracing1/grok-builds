@@ -1,0 +1,94 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Garage · Grok Builds</title><meta name="description" content="A public index of every public repository of the GitHub account fitzyracing1. Static site, no build, deployable to GitHub Pages."><link rel="canonical" href="https://fitzyracing1.github.io/grok-builds/garage/">
+<meta property="og:type" content="website"><meta property="og:title" content="Garage · Grok Builds"><meta property="og:description" content="A public index of every public repository of the GitHub account fitzyracing1. Static site, no build, deployable to GitHub Pages."><meta property="og:url" content="https://fitzyracing1.github.io/grok-builds/garage/"><meta property="og:site_name" content="Grok Builds by Joshua Almeida"><meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareSourceCode", "name": "Garage", "description": "A public index of every public repository of the GitHub account fitzyracing1. Static site, no build, deployable to GitHub Pages.", "url": "https://fitzyracing1.github.io/grok-builds/garage/", "codeRepository": "https://github.com/fitzyracing1/garage", "license": "https://opensource.org/licenses/MIT", "author": {"@type": "Person", "name": "Joshua Almeida", "url": "https://github.com/fitzyracing1"}}</script><style>body{font:16px/1.6 system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;color:#222}a{color:#0b57d0}img{max-width:100%}pre{background:#f5f5f5;padding:.8rem;overflow:auto}code{background:#f5f5f5}li{margin:.4rem 0}nav{margin-bottom:1rem}.card{border:1px solid #ddd;border-radius:8px;padding:1rem;margin:1rem 0}table{border-collapse:collapse}td,th{border:1px solid #ddd;padding:.3rem .5rem}</style></head><body><nav><a href="../">← All Grok Builds</a></nav><p><a href="https://github.com/fitzyracing1/garage">Original repo</a> · <a href="https://github.com/fitzyracing1/grok-builds/tree/main/projects/garage">Source in this repo</a> · <a href="https://fitzyracing1.github.io/garage/">Live demo</a></p><main><h1 id="garage">Garage</h1>
+<p><strong>Live:</strong> <a
+href="https://fitzyracing1.github.io/garage/">https://fitzyracing1.github.io/garage/</a>
+· <strong>Repo:</strong> <a
+href="https://github.com/fitzyracing1/garage">https://github.com/fitzyracing1/garage</a></p>
+<p>A public index of every public repository of the GitHub account
+<strong><a
+href="https://github.com/fitzyracing1">fitzyracing1</a></strong>. Static
+site, no build, deployable to GitHub Pages.</p>
+<p><img src="../projects/garage/docs/screenshot.png" alt="Garage screenshot" /></p>
+<h2 id="features">Features</h2>
+<ul>
+<li><strong>Live data, client-side</strong>: the browser pages through
+<code>GET /users/fitzyracing1/repos</code> on the GitHub API
+(unauthenticated, ~3 requests), caches the result in
+<code>localStorage</code> for an hour, and falls back to the bundled
+<code>data/snapshot.json</code> if the API is rate-limited or offline.
+Private repos never appear (the public endpoint cannot see them).</li>
+<li><strong>Shelves</strong>: Work (default: everything except Barrage
+clones, so they don't bury the rest), Projects, Skills, Archives,
+Barrage, All, each with a count.</li>
+<li><strong>Search</strong> by name, description, language or topic,
+with <code>lang:python</code> and <code>topic:cli</code> operators.
+Press <code>/</code> to focus search.</li>
+<li><strong>Filter</strong> by language or "Described" (only repos with
+a description). <strong>Sort</strong> by updated, created, stars or
+name.</li>
+<li><strong>Repo drawer</strong>: dates, stars, forks, branch, license,
+homepage, topics (click a topic to search it) and a link to GitHub.</li>
+<li><strong>On the bench</strong>: the latest projects that actually
+describe themselves.</li>
+<li>State lives in the URL hash (<code>#shelf=Skills&amp;q=grok</code>,
+<code>#repo=uiltiol</code>), so views are linkable.
+<code>?user=&lt;login&gt;</code> indexes any other account;
+<code>?refresh</code> skips the cache.</li>
+</ul>
+<h2 id="run-it">Run it</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> http.server 8080   <span class="co"># then open http://localhost:8080</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> test                      <span class="co"># node --test, no dependencies</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run snapshot              <span class="co"># refresh data/snapshot.json (GITHUB_TOKEN optional)</span></span></code></pre></div>
+<p>Deploy: <code>.github/workflows/pages.yml</code> publishes the repo
+root to Pages on push to <code>main</code> (Settings → Pages → Source:
+GitHub Actions). <code>.nojekyll</code> is included.</p>
+<h2 id="shelf-rules-choices-made">Shelf rules (choices made)</h2>
+<p>The chat named the shelves but not how repos land on them, so
+<code>src/garage-core.js</code> uses:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Shelf</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Barrage</td>
+<td>name ends in <code>-barrage</code>, or description says "Barrage
+plain-language clone"</td>
+</tr>
+<tr class="even">
+<td>Skills</td>
+<td>name starts with <code>skill-</code>/<code>skills-</code>, or
+description starts "Grok skill"/"Claude skill"</td>
+</tr>
+<tr class="odd">
+<td>Archives</td>
+<td>forks, archived repos, names with
+<code>log</code>/<code>archive</code>/<code>snapshot</code> segments,
+"combined snapshot"/"my clone" descriptions</td>
+</tr>
+<tr class="even">
+<td>Projects</td>
+<td>everything else</td>
+</tr>
+<tr class="odd">
+<td>Work</td>
+<td>all but Barrage</td>
+</tr>
+</tbody>
+</table>
+<p>The chat counted 594 public repos (351 Work / 243 Barrage); on Oct
+17, 2026 the API reports 224 public repos, so the live counts
+differ.</p>
+<h2 id="origin">Origin</h2>
+<p>Built from Joshua Almeida's Grok chat "Create a site for all of my
+repos" (<a
+href="https://grok.com/c/91967971-7580-483f-90f4-18a2f8daca38">https://grok.com/c/91967971-7580-483f-90f4-18a2f8daca38</a>,
+Oct 2, 2026).</p>
+<h2 id="license">License</h2>
+<p>MIT, see <a href="https://github.com/fitzyracing1/grok-builds/blob/main/projects/garage/LICENSE">LICENSE</a>.</p>
+</main></body></html>

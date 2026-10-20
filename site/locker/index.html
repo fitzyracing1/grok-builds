@@ -1,0 +1,98 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Locker · Grok Builds</title><meta name="description" content="Every long is verified before use, or the endpoint is not isolated."><link rel="canonical" href="https://fitzyracing1.github.io/grok-builds/locker/">
+<meta property="og:type" content="website"><meta property="og:title" content="Locker · Grok Builds"><meta property="og:description" content="Every long is verified before use, or the endpoint is not isolated."><meta property="og:url" content="https://fitzyracing1.github.io/grok-builds/locker/"><meta property="og:site_name" content="Grok Builds by Joshua Almeida"><meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareSourceCode", "name": "Locker", "description": "Every long is verified before use, or the endpoint is not isolated.", "url": "https://fitzyracing1.github.io/grok-builds/locker/", "codeRepository": "https://github.com/fitzyracing1/locker", "license": "https://opensource.org/licenses/MIT", "author": {"@type": "Person", "name": "Joshua Almeida", "url": "https://github.com/fitzyracing1"}}</script><style>body{font:16px/1.6 system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;color:#222}a{color:#0b57d0}img{max-width:100%}pre{background:#f5f5f5;padding:.8rem;overflow:auto}code{background:#f5f5f5}li{margin:.4rem 0}nav{margin-bottom:1rem}.card{border:1px solid #ddd;border-radius:8px;padding:1rem;margin:1rem 0}table{border-collapse:collapse}td,th{border:1px solid #ddd;padding:.3rem .5rem}</style></head><body><nav><a href="../">← All Grok Builds</a></nav><p><a href="https://github.com/fitzyracing1/locker">Original repo</a> · <a href="https://github.com/fitzyracing1/grok-builds/tree/main/projects/locker">Source in this repo</a> · <a href="https://fitzyracing1.github.io/locker/">Live demo</a></p><main><h1 id="locker">Locker</h1>
+<p><strong>Live:</strong> <a
+href="https://fitzyracing1.github.io/locker/">https://fitzyracing1.github.io/locker/</a>
+· <strong>Repo:</strong> <a
+href="https://github.com/fitzyracing1/locker">https://github.com/fitzyracing1/locker</a></p>
+<p><strong>Every long is verified before use, or the endpoint is not
+isolated.</strong></p>
+<p>Locker checks source in a static sandbox (nothing is executed). A
+long integer, or a string that is really a long (ids, account numbers,
+amounts, serials), has to be verified before it is used. That check is
+what isolates the endpoint. If the source skips it, the stamp says
+<strong>Not safe</strong>.</p>
+<p><img src="../projects/locker/docs/screenshot.png" alt="Locker screenshot" /></p>
+<h2 id="what-it-does">What it does</h2>
+<ul>
+<li><strong>Paste code, load files, or start from the samples</strong>
+(Express, Flask, Java, Go, C, a safe example, and the known stamp).</li>
+<li><strong>Stamp</strong>: <code>Safe</code>, <code>Not safe</code> or
+<code>Review</code>, with each finding on its line:
+<ul>
+<li><code>unverified-long</code>: an external string (request
+params/query/body, argv, env, stdin, URL params, form values…) is turned
+into an integer by
+<code>parseInt</code>/<code>Number</code>/<code>BigInt</code>,
+<code>int()</code>, <code>Long.parseLong</code>,
+<code>strconv.Atoi/ParseInt</code>, <code>atoi/atol/strtol</code>
+without a format/range check, a caught parse error, or a checked
+<code>err</code>/<code>errno</code>.</li>
+<li><code>unverified-endpoint</code>: an external value goes straight
+into a URL, path or SQL string.</li>
+<li><code>long-literal</code> (JS): a numeric literal above 2^53−1 that
+JavaScript silently rounds.</li>
+<li><code>json-long</code> (JS, review): <code>JSON.parse</code> near id
+fields, where long ids become rounded numbers.</li>
+</ul></li>
+<li><strong>Insert gate</strong>: a local, deterministic rewrite. Each
+unsafe spot goes through a <code>verifyLong</code> gate (per language:
+<code>verifyLong</code>, <code>verify_long</code>,
+<code>LockerGate.verifyLong</code>, <code>lockerVerifyInt64</code> +
+<code>lockerMust</code>, <code>locker_verify_long</code>) that checks
+digits, length and range and <strong>fails closed</strong>, so a failed
+check never reaches the endpoint. The rewrite is checked again and shown
+as a diff before you apply it.</li>
+<li><strong>Fix with AI (optional, pluggable)</strong>: no key is
+required. With nothing configured it falls back to Insert gate. You can
+point it at any OpenAI-compatible chat-completions endpoint (URL, model,
+key stored only in your browser), or a page can register
+<code>window.LockerAI = { fix(source, findings, language) }</code>.
+Whatever comes back is checked again; if it still has unverified longs,
+Locker gates it.</li>
+<li><strong>Known stamp</strong>: the residual rule from the chat: null
+and zero-b are −1, aligned 1 is 0, aligned 3 is 2. Open parallel and
+every long goes out of date: read refuses it. Close parallel and the
+residuals refresh. (Panel in the UI, <code>knownStamp</code> +
+<code>ResidualStore</code> in the core.)</li>
+<li><strong>Share card</strong>: downloads a 1200×630 PNG of the current
+verdict.</li>
+<li><strong>CLI</strong> for CI:
+<code>node bin/locker.mjs src/**/*.js</code> exits 1 when anything is
+Not safe; <code>--gate --write</code> rewrites files in place;
+<code>--json</code> for machine output.</li>
+</ul>
+<h2 id="run-it">Run it</h2>
+<p>No build, no dependencies.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> http.server 8080     <span class="co"># or any static server; ES modules need http://, not file://</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">open</span> http://localhost:8080</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> test                        <span class="co"># node --test (Node 18+)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">node</span> bin/locker.mjs samples/…   <span class="co"># CLI</span></span></code></pre></div>
+<p>URL options: <code>?sample=flask_accounts.py</code> opens a sample,
+<code>&amp;gate=1</code> runs Insert gate immediately.</p>
+<p>Deploy: it is a static site. <code>.github/workflows/pages.yml</code>
+publishes the repo root to GitHub Pages on push to <code>main</code>
+(enable Pages → "GitHub Actions" in repo settings).</p>
+<h2 id="choices-made-where-the-idea-was-open">Choices made where the
+idea was open</h2>
+<ul>
+<li>"Checked in its sandbox" = static analysis in the browser; Locker
+never runs your code.</li>
+<li>Detection is heuristic (regex + light taint tracking of variables
+assigned from external sources, verification hints within ±3 lines). It
+is a linter, not a proof. Supported: JS/TS, Python, Java, Go, C.</li>
+<li>The known-stamp rule came from an attached
+<code>axb_residual_known.zip</code> that is not in the chat capture, so
+it is implemented exactly as the chat text states and nothing more.</li>
+<li>AI is off by default so the app works with no account, key or
+network.</li>
+</ul>
+<h2 id="origin">Origin</h2>
+<p>Built from Joshua Almeida's Grok chat "I want to build an app called
+locker" (<a
+href="https://grok.com/c/be8ead52-c6cd-4841-afb7-d9e99bb89dfb">https://grok.com/c/be8ead52-c6cd-4841-afb7-d9e99bb89dfb</a>,
+Oct 4, 2026).</p>
+<h2 id="license">License</h2>
+<p>MIT, see <a href="https://github.com/fitzyracing1/grok-builds/blob/main/projects/locker/LICENSE">LICENSE</a>.</p>
+</main></body></html>

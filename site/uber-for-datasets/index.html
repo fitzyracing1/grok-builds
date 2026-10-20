@@ -1,0 +1,123 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hailset: Uber for datasets · Grok Builds</title><meta name="description" content="You have data and a job. Other people have spare compute. Hailset connects the two, Uber-style."><link rel="canonical" href="https://fitzyracing1.github.io/grok-builds/uber-for-datasets/">
+<meta property="og:type" content="website"><meta property="og:title" content="Hailset: Uber for datasets · Grok Builds"><meta property="og:description" content="You have data and a job. Other people have spare compute. Hailset connects the two, Uber-style."><meta property="og:url" content="https://fitzyracing1.github.io/grok-builds/uber-for-datasets/"><meta property="og:site_name" content="Grok Builds by Joshua Almeida"><meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareSourceCode", "name": "Hailset: Uber for datasets", "description": "You have data and a job. Other people have spare compute. Hailset connects the two, Uber-style.", "url": "https://fitzyracing1.github.io/grok-builds/uber-for-datasets/", "codeRepository": "https://github.com/fitzyracing1/uber-for-datasets", "license": "https://opensource.org/licenses/MIT", "author": {"@type": "Person", "name": "Joshua Almeida", "url": "https://github.com/fitzyracing1"}}</script><style>body{font:16px/1.6 system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;color:#222}a{color:#0b57d0}img{max-width:100%}pre{background:#f5f5f5;padding:.8rem;overflow:auto}code{background:#f5f5f5}li{margin:.4rem 0}nav{margin-bottom:1rem}.card{border:1px solid #ddd;border-radius:8px;padding:1rem;margin:1rem 0}table{border-collapse:collapse}td,th{border:1px solid #ddd;padding:.3rem .5rem}</style></head><body><nav><a href="../">← All Grok Builds</a></nav><p><a href="https://github.com/fitzyracing1/uber-for-datasets">Original repo</a> · <a href="https://github.com/fitzyracing1/grok-builds/tree/main/projects/uber-for-datasets">Source in this repo</a> · <a href="https://fitzyracing1.github.io/uber-for-datasets/">Live demo</a></p><main><h1 id="hailset-uber-for-datasets">Hailset: Uber for datasets</h1>
+<p><strong>Live:</strong> <a
+href="https://fitzyracing1.github.io/uber-for-datasets/">https://fitzyracing1.github.io/uber-for-datasets/</a>
+· <strong>Repo:</strong> <a
+href="https://github.com/fitzyracing1/uber-for-datasets">https://github.com/fitzyracing1/uber-for-datasets</a></p>
+<p><img src="../projects/uber-for-datasets/docs/screenshot.png"
+alt="Request view: dataset profile and ranked offers" /></p>
+<p>You have data and a job. Other people have spare compute. Hailset
+connects the two, Uber-style.</p>
+<ol type="1">
+<li><strong>Drop a dataset</strong> (CSV, TSV, JSON, JSON Lines or a
+plain log). It is parsed and profiled in your browser, and PII columns
+(emails, phones, names) are flagged.</li>
+<li><strong>Describe the job in plain words.</strong> For example:
+<em>"Clean this sales data, extract every company and person, score lead
+quality, and give me a ranked list with confidence."</em> That becomes
+job types (clean, extract entities, score leads, summarize + classify,
+anomaly scan, forecast, report) plus hints like speed, privacy, human
+review, or "under $20".</li>
+<li><strong>Set constraints.</strong> A slider from cheapest to fastest,
+a privacy route (any, ephemeral container, private cloud, or on-device),
+an optional price cap and deadline, and an optional verified
+human-review tier.</li>
+<li><strong>Get upfront offers.</strong> Each offer pairs a compute
+provider with an agent stack and shows the price, the ETA, and a full
+breakdown. Offers are tagged <em>Best match</em>, <em>Cheapest</em> and
+<em>Fastest</em>. Surge applies when the pool is busy.</li>
+<li><strong>Book it and track it.</strong> You see a live progress bar
+and stage. On delivery you get results you can download (cleaned CSV,
+entities.csv, ranked_leads.csv, anomalies.csv, report.md, summary.json),
+and you can rate the ride.</li>
+<li><strong>Drive.</strong> Add your own GPU or CPU capacity to the
+pool, then watch it get matched and earn money.</li>
+</ol>
+<p>The agents are real. Clean, extract, score, classify, anomaly scan,
+forecast and report all run on your rows in the browser, using
+deterministic heuristics with no model API. The providers, other riders,
+payments and the clock are simulated, and time runs 60× faster (1 s = 1
+min). Nothing is uploaded anywhere.</p>
+<table>
+<tbody>
+<tr class="odd">
+<td><img src="../projects/uber-for-datasets/docs/delivered.png" alt="Delivered job" /></td>
+<td><img src="../projects/uber-for-datasets/docs/drive.png" alt="Drive tab" /></td>
+</tr>
+</tbody>
+</table>
+<h2 id="run-it">Run it</h2>
+<p>It is a static site with no build step and no dependencies.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> start            <span class="co"># python3 -m http.server 8080, then open http://localhost:8080</span></span></code></pre></div>
+<p>Deep links for demos: <code>?sample=0..3</code>,
+<code>&amp;find=1</code> (match right away), <code>&amp;book=1</code>
+(book the best offer), <code>&amp;deliver=1</code> (skip to delivery),
+and <code>#request|trips|drive|market</code>. Example:
+<code>/?sample=0&amp;book=1&amp;deliver=1</code>.</p>
+<p>The repo also deploys to GitHub Pages as-is
+(<code>.github/workflows/pages.yml</code>).</p>
+<h2 id="how-the-marketplace-works">How the marketplace works</h2>
+<ul>
+<li><strong>Compute units (CU).</strong> 1 CU is about one GPU-second on
+a reference card. Each job type costs a base amount plus CU per 1,000
+rows, scaled by column count (<code>src/market.js</code>,
+<code>JOB_TYPES</code>). CPU pools pay 1.5× on GPU-heavy work.</li>
+<li><strong>Price.</strong> (compute + agent fees + human review) ×
+surge, plus a 10% platform fee. Minimum fare is <span
+class="math inline">$0.50.
+The chat's example, "$</span>4.20 for 1.2M rows cleaned + entity tagged
+in 9 minutes", prices out at about that on the seeded Northgate pool,
+and a test checks it.</li>
+<li><strong>Surge.</strong> Starts above 60% pool utilisation: ×(1 + 2.5
+× (busy − 0.6)), capped at ×2.5. Ambient demand from other riders moves
+in a deterministic wave per provider, and the Market tab has a <em>Rush
+hour</em> toggle. The on-device route never surges.</li>
+<li><strong>Matching.</strong> Privacy routes, free slots, the price cap
+and the deadline are hard filters. The remaining offers are ranked by
+normalised price and ETA weighted by the slider, then nudged by rating
+and preferred providers. For each job type the agent stack picks the
+agent that trades quality against fee according to the slider.</li>
+<li><strong>Lifecycle.</strong> Booking holds a slot. When the ETA
+passes, the job is delivered, the slot is freed, and the provider is
+paid compute × surge while agents get their fees × surge. Cancelling
+refunds the job. Ratings are running averages, one per job.</li>
+<li><strong>Templates.</strong> Save a job as a one-tap template. Two
+come seeded, including "Monthly sales lead scoring".</li>
+</ul>
+<p>State (the market, jobs and results) lives in
+<code>localStorage</code>. <em>Reset demo</em> on the Market tab clears
+it.</p>
+<h2 id="layout">Layout</h2>
+<pre><code>index.html          the app (Request / Jobs / Drive / Market)
+src/data.js         CSV/JSON/JSONL/text parsing, profiling, PII detection
+src/agents.js       clean, extract, score, classify, anomaly, forecast, report, runPipeline
+src/market.js       taxonomy, intent parsing, work units, surge, quotes, matching, lifecycle, ratings
+src/seed.js         seeded providers, agents, templates and four sample datasets
+src/app.js          UI
+src/style.css
+test/               node --test suites (data, agents, market)</code></pre>
+<h2 id="tests">Tests</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> test             <span class="co"># node --test test/*.test.js (Node 18+)</span></span></code></pre></div>
+<p>There are 24 tests: the parsers and profiling, every agent on the
+seeded samples (the injected sensor spikes are found, the forecast slope
+and labels are right, leads rank correctly), intent parsing, pricing
+against the chat's example, surge, slider ranking, privacy filters, caps
+and deadlines, human review, minimum fare, the full book → deliver → pay
+→ rate lifecycle, cancel and refund, drivers adding capacity, and
+JSON-serialisable state. CI runs them on Node 18, 20 and 22.</p>
+<h2 id="origin">Origin</h2>
+<p>Built from the Grok chat "Uber for Datasets Marketplace" (<a
+href="https://grok.com/c/631dda50-1db5-4c80-895f-9d093fd79f06">https://grok.com/c/631dda50-1db5-4c80-895f-9d093fd79f06</a>,
+Aug 13, 2026). That chat was only a product plan. This repo is the MVP
+it described: rider and driver sides, dynamic pricing with surge,
+ratings, privacy routes, a verified human tier, templates, a transparent
+breakdown, and the four starter job families.</p>
+<p>Not included, by design: real payments (Stripe), real remote compute,
+accounts, and LLM-backed agents. The agent interface
+(<code>runPipeline</code>) is where a model-backed agent would plug
+in.</p>
+<h2 id="license">License</h2>
+<p>MIT</p>
+</main></body></html>

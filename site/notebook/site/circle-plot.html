@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Circle Plot with 0.1 Rad Step · Notebook</title><meta name="description" content="Sampling the parametric unit circle x = cos θ, y = sin θ at a 0.1 rad step, in Python."><link rel="canonical" href="https://fitzyracing1.github.io/grok-builds/notebook/site/circle-plot.html">
+<meta property="og:type" content="article"><meta property="og:title" content="Circle Plot with 0.1 Rad Step · Notebook"><meta property="og:description" content="Sampling the parametric unit circle x = cos θ, y = sin θ at a 0.1 rad step, in Python."><meta property="og:url" content="https://fitzyracing1.github.io/grok-builds/notebook/site/circle-plot.html"><meta property="og:site_name" content="Grok Builds by Joshua Almeida"><meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Circle Plot with 0.1 Rad Step \u00b7 Notebook", "description": "Sampling the parametric unit circle x = cos \u03b8, y = sin \u03b8 at a 0.1 rad step, in Python.", "url": "https://fitzyracing1.github.io/grok-builds/notebook/site/circle-plot.html", "author": {"@type": "Person", "name": "Joshua Almeida"}, "isPartOf": "https://fitzyracing1.github.io/grok-builds/notebook/"}</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="assets/katex/katex.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="site"><a class="brand" href="index.html">Notebook</a><span class="tag">Joshua Almeida's math &amp; physics explorations</span></header>
+<main>
+
+<nav class="crumbs"><a href="index.html">Notebook</a> › <a href="index.html#geometry">Geometry &amp; trigonometry</a></nav>
+<article>
+<h1>Circle Plot with 0.1 Rad Step</h1>
+<p class="meta">Chat date: Jul 29 · <a href="https://grok.com/c/17390579-d94c-492f-88b7-bef72806901d" rel="noopener">Original chat on grok.com ↗</a> · <a href="entries/circle-plot.md">Raw capture (.md)</a></p>
+<p class="badges"><span class="badge badge-short">Short capture</span></p>
+
+<aside class="callout callout-note"><strong>Capture note.</strong> The mathematics is the parametric unit circle <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><mi>r</mi><mi>cos</mi><mo>⁡</mo><mi>θ</mi></mrow><annotation encoding="application/x-tex">x=r\cos\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">cos</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">θ</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mi>r</mi><mi>sin</mi><mo>⁡</mo><mi>θ</mi></mrow><annotation encoding="application/x-tex">y=r\sin\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">sin</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">θ</span></span></span></span> sampled at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>θ</mi><mo>=</mo><mn>0.1</mn></mrow><annotation encoding="application/x-tex">\Delta\theta = 0.1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">Δ</span><span class="mord mathnormal" style="margin-right:0.0278em;">θ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.1</span></span></span></span> rad. Mostly code; reviewer may reject it as a coding exercise.</aside>
+<h2>Joshua&#39;s messages (verbatim)</h2>
+<ol>
+<li><code>calculation of 0.1 = math stdio import math use directives as the if and write to code for the circle plot</code></li>
+</ol>
+<h2>Grok&#39;s response (as captured)</h2>
+<p>Code for a circle plot with step size 0.1, <code>import math</code>, print/&quot;stdio&quot;-style output, and <code>if</code> as control directives (verbatim):</p>
+<pre><code class="language-python">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Circle Plot Generator
+Calculates points on a unit circle using step of 0.1 radians.
+Uses import math, and conditional (if) directives for control.
+&quot;&quot;&quot;
+
+import math
+import matplotlib.pyplot as plt
+
+# Calculation step size
+STEP = 0.1
+
+def generate_circle_points(radius=1.0, step=STEP):
+    &quot;&quot;&quot;Generate x,y points for a circle using parametric equations.&quot;&quot;&quot;
+    x_points = []
+    y_points = []
+    theta = 0.0
+    
+    # Use if as directive-like control for loop bounds
+    if step &lt;= 0:
+        print(&quot;Invalid step size, using default 0.1&quot;)
+        step = 0.1
+    
+    while True:
+        # Calculate using math module
+        x = radius * math.cos(theta)
+        y = radius * math.sin(theta)
+        x_points.append(x)
+        y_points.append(y)
+        
+        theta += step
+        
+        # Directive-style if to break when full circle reached
+        if theta &gt;= 2 * math.pi + step:  # slight overshoot to close
+            break
+    
+    return x_points, y_points
+
+def plot_circle(x, y, filename=&quot;circle_plot.png&quot;):
+    &quot;&quot;&quot;Plot the circle and save to file.&quot;&quot;&quot;
+    plt.figure(figsize=(8, 8))
+    plt.plot(x, y, &#39;b-&#39;, linewidth=2, label=&#39;Unit Circle (step=0.1)&#39;)
+    plt.plot(x[0], y[0], &#39;ro&#39;, markersize=8, label=&#39;Start point&#39;)  # mark start
+    plt.axis(&#39;equal&#39;)
+    plt.grid(True, linestyle=&#39;--&#39;, alpha=0.7)
+    plt.axhline(0, color=&#39;black&#39;, linewidth=0.5)
+    plt.axvline(0, color=&#39;black&#39;, linewidth=0.5)
+    plt.title(&#39;Circle Plot - Parametric (θ step = 0.1 rad)\nUsing math.cos / math.sin&#39;)
+    plt.xlabel(&#39;x = r * cos(θ)&#39;)
+    plt.ylabel(&#39;y = r * sin(θ)&#39;)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(filename, dpi=150)
+    print(f&quot;Circle plot saved to: {filename}&quot;)
+    # Also print some calculated points using &quot;stdio&quot;-like print
+    print(&quot;\nSample calculated points (first 5):&quot;)
+    for i in range(min(5, len(x))):
+        print(f&quot;  θ≈{i*STEP:.1f}: x={x[i]:.4f}, y={y[i]:.4f}&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    # Main calculation and plot
+    xs, ys = generate_circle_points()
+    plot_circle(xs, ys)
+    
+    # Additional calculation demo of 0.1 related
+    print(f&quot;\nMath verification: math.cos(0.1) = {math.cos(0.1):.6f}&quot;)
+    print(f&quot;math.sin(0.1) = {math.sin(0.1):.6f}&quot;)
+    print(f&quot;2 * math.pi ≈ {2 * math.pi:.6f}&quot;)
+</code></pre>
+<p>Key calculations of 0.1 (from the run Grok reported):</p>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>cos</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>0.1</mn><mo stretchy="false">)</mo><mo>=</mo><mn>0.995004</mn></mrow><annotation encoding="application/x-tex">\cos(0.1) = 0.995004</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">cos</span><span class="mopen">(</span><span class="mord">0.1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.995004</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>sin</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>0.1</mn><mo stretchy="false">)</mo><mo>=</mo><mn>0.099833</mn></mrow><annotation encoding="application/x-tex">\sin(0.1) = 0.099833</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">sin</span><span class="mopen">(</span><span class="mord">0.1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.099833</span></span></span></span></li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>≈</mo><mn>0.0</mn><mo>→</mo><mo stretchy="false">(</mo><mn>1.0000</mn><mo separator="true">,</mo><mn>0.0000</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\theta \approx 0.0 \to (1.0000, 0.0000)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">θ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1.0000</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">0.0000</span><span class="mclose">)</span></span></span></span>; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>≈</mo><mn>0.1</mn><mo>→</mo><mo stretchy="false">(</mo><mn>0.9950</mn><mo separator="true">,</mo><mn>0.0998</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\theta \approx 0.1 \to (0.9950, 0.0998)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">θ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">0.9950</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">0.0998</span><span class="mclose">)</span></span></span></span>; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>≈</mo><mn>0.2</mn><mo>→</mo><mo stretchy="false">(</mo><mn>0.9801</mn><mo separator="true">,</mo><mn>0.1987</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\theta \approx 0.2 \to (0.9801, 0.1987)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">θ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.2</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">0.9801</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">0.1987</span><span class="mclose">)</span></span></span></span>; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>≈</mo><mn>0.3</mn><mo>→</mo><mo stretchy="false">(</mo><mn>0.9553</mn><mo separator="true">,</mo><mn>0.2955</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\theta \approx 0.3 \to (0.9553, 0.2955)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">θ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.3</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">0.9553</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">0.2955</span><span class="mclose">)</span></span></span></span>; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>≈</mo><mn>0.4</mn><mo>→</mo><mo stretchy="false">(</mo><mn>0.9211</mn><mo separator="true">,</mo><mn>0.3894</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\theta \approx 0.4 \to (0.9211, 0.3894)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.0278em;">θ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.4</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">0.9211</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">0.3894</span><span class="mclose">)</span></span></span></span></li>
+</ul>
+<p>Grok said the script was run and produced a plot image (unit circle, start point in red); the image is not reproduced here.</p>
+
+</article>
+<nav class="pager"><a href="three-halves-circle.html">← Circumference of 3/2 Circle</a><a href="identity-matrix.html">Identity Matrix in Linear Algebra →</a></nav>
+</main>
+<footer class="site">
+<p>Personal notes and explorations from Joshua Almeida's chats on grok.com. They are not peer reviewed, and the speculative pieces are labeled. <a href="https://github.com/fitzyracing1/notebook">Source on GitHub</a> · MIT License</p>
+</footer>
+</body>
+</html>

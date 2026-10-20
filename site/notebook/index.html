@@ -1,0 +1,82 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notebook · Grok Builds</title><meta name="description" content="Notebook collects Joshua Almeida&#x27;s math and physics explorations. All 22 entries come from his chats on grok.com. Each entry has its own page with:"><link rel="canonical" href="https://fitzyracing1.github.io/grok-builds/notebook/">
+<meta property="og:type" content="website"><meta property="og:title" content="Notebook · Grok Builds"><meta property="og:description" content="Notebook collects Joshua Almeida&#x27;s math and physics explorations. All 22 entries come from his chats on grok.com. Each entry has its own page with:"><meta property="og:url" content="https://fitzyracing1.github.io/grok-builds/notebook/"><meta property="og:site_name" content="Grok Builds by Joshua Almeida"><meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareSourceCode", "name": "Notebook", "description": "Notebook collects Joshua Almeida's math and physics explorations. All 22 entries come from his chats on grok.com. Each entry has its own page with:", "url": "https://fitzyracing1.github.io/grok-builds/notebook/", "codeRepository": "https://github.com/fitzyracing1/notebook", "license": "https://opensource.org/licenses/MIT", "author": {"@type": "Person", "name": "Joshua Almeida", "url": "https://github.com/fitzyracing1"}}</script><style>body{font:16px/1.6 system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;color:#222}a{color:#0b57d0}img{max-width:100%}pre{background:#f5f5f5;padding:.8rem;overflow:auto}code{background:#f5f5f5}li{margin:.4rem 0}nav{margin-bottom:1rem}.card{border:1px solid #ddd;border-radius:8px;padding:1rem;margin:1rem 0}table{border-collapse:collapse}td,th{border:1px solid #ddd;padding:.3rem .5rem}</style></head><body><nav><a href="../">← All Grok Builds</a></nav><p><a href="https://github.com/fitzyracing1/notebook">Original repo</a> · <a href="https://github.com/fitzyracing1/grok-builds/tree/main/projects/notebook">Source in this repo</a> · <a href="https://fitzyracing1.github.io/notebook/">Live demo</a></p><p><strong><a href="site/index.html">Browse all 22 Notebook entries (static HTML, KaTeX pre-rendered)</a></strong></p><main><h1 id="notebook">Notebook</h1>
+<p><strong>Live site:</strong> <a
+href="https://fitzyracing1.github.io/notebook/">https://fitzyracing1.github.io/notebook/</a></p>
+<p>Notebook collects Joshua Almeida's math and physics explorations. All
+22 entries come from his chats on <a
+href="https://grok.com">grok.com</a>. Each entry has its own page
+with:</p>
+<ul>
+<li>Joshua's questions, word for word,</li>
+<li>the formulas, derivations and code from the reply (math rendered
+with <a href="https://katex.org">KaTeX</a>),</li>
+<li>a link back to the original grok.com chat, and</li>
+<li>the raw markdown capture it was built from.</li>
+</ul>
+<p>Topics are grouped into algebra and number systems, geometry and
+trigonometry, linear algebra, calculus, probability and statistics,
+quantum mechanics, classical mechanics and relativity, numerical
+methods, and the 2xc − d metric (Joshua's personal construction).</p>
+<h2 id="a-note-on-what-this-is">A note on what this is</h2>
+<p>These are personal working notes, not a textbook, and nobody has peer
+reviewed them. The replies are partly excerpted and condensed (each
+page's capture note says what was summarized). Two kinds of entries are
+labeled on the site:</p>
+<ul>
+<li><strong>Speculative / personal construction</strong>: invented
+frameworks or notations. Examples are "Fold Calculus" (from <em>Invent
+New Calculus</em>) and the custom u/p/i ternary system. Neither is
+established theory.</li>
+<li><strong>The 2xc − d metric (personal construction)</strong>: a whole
+section of six entries built on Joshua's own invented rule 2xc − d = 1
+(the "metric for all computing") and related shorthand. Every entry in
+it is labeled speculative. Any dollar figures that appear there come
+from an ad-hoc program in the chat and are not real valuations.</li>
+<li><strong>Exploratory</strong>: entries that start from Joshua's own
+equations, such as π² = E·m − c, which the chat itself shows is
+dimensionally inconsistent.</li>
+</ul>
+<p>Entries tagged <strong>Short capture</strong> come from brief chats.
+They are kept so the collection stays complete.</p>
+<h2 id="layout">Layout</h2>
+<pre><code>entries/          raw markdown captures (one per chat), the source of truth
+src/catalog.json  category, one-line summary and status label for each entry
+src/style.css     site stylesheet
+build.js          small generator: markdown + KaTeX (server-side) -&gt; _site/
+scripts/check.js  sanity checks run in CI
+docs/             screenshots</code></pre>
+<h2 id="run-locally">Run locally</h2>
+<p>You need Node 20+.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> ci</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> test          <span class="co"># builds _site/ and runs the checks</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run serve     <span class="co"># serves _site/ at http://localhost:8080 (needs python3)</span></span></code></pre></div>
+<p>There are two runtime dependencies: <code>marked</code> for markdown
+and <code>katex</code> for math. KaTeX's CSS and fonts get copied into
+the built site, so the published pages make no CDN requests.</p>
+<h2 id="deployment">Deployment</h2>
+<p>On every push to <code>main</code>,
+<code>.github/workflows/ci.yml</code> builds and checks the site, and
+<code>.github/workflows/pages.yml</code> builds it and deploys it to
+GitHub Pages.</p>
+<h2 id="screenshots">Screenshots</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Index</th>
+<th>Entry page</th>
+<th>Metric entry</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src="../projects/notebook/docs/index.png" alt="Index" /></td>
+<td><img src="../projects/notebook/docs/fold-calculus.png" alt="Fold Calculus entry" /></td>
+<td><img src="../projects/notebook/docs/metric-x-equation.png" alt="X Metric entry" /></td>
+</tr>
+</tbody>
+</table>
+<h2 id="license">License</h2>
+<p>MIT, see <a href="https://github.com/fitzyracing1/grok-builds/blob/main/projects/notebook/LICENSE">LICENSE</a>.</p>
+</main></body></html>

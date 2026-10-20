@@ -1,0 +1,130 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EchoApp · Grok Builds</title><meta name="description" content="A new type of application that only acts after predicting and confirming an echo."><link rel="canonical" href="https://fitzyracing1.github.io/grok-builds/echoapp/">
+<meta property="og:type" content="website"><meta property="og:title" content="EchoApp · Grok Builds"><meta property="og:description" content="A new type of application that only acts after predicting and confirming an echo."><meta property="og:url" content="https://fitzyracing1.github.io/grok-builds/echoapp/"><meta property="og:site_name" content="Grok Builds by Joshua Almeida"><meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareSourceCode", "name": "EchoApp", "description": "A new type of application that only acts after predicting and confirming an echo.", "url": "https://fitzyracing1.github.io/grok-builds/echoapp/", "codeRepository": "https://github.com/fitzyracing1/echoapp", "license": "https://opensource.org/licenses/MIT", "author": {"@type": "Person", "name": "Joshua Almeida", "url": "https://github.com/fitzyracing1"}}</script><style>body{font:16px/1.6 system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;color:#222}a{color:#0b57d0}img{max-width:100%}pre{background:#f5f5f5;padding:.8rem;overflow:auto}code{background:#f5f5f5}li{margin:.4rem 0}nav{margin-bottom:1rem}.card{border:1px solid #ddd;border-radius:8px;padding:1rem;margin:1rem 0}table{border-collapse:collapse}td,th{border:1px solid #ddd;padding:.3rem .5rem}</style></head><body><nav><a href="../">← All Grok Builds</a></nav><p><a href="https://github.com/fitzyracing1/echoapp">Original repo</a> · <a href="https://github.com/fitzyracing1/grok-builds/tree/main/projects/echoapp">Source in this repo</a> · <a href="https://fitzyracing1.github.io/echoapp/">Live demo</a></p><main><h1 id="echoapp">EchoApp</h1>
+<p><strong>Live:</strong> <a
+href="https://fitzyracing1.github.io/echoapp/">https://fitzyracing1.github.io/echoapp/</a>
+· <strong>Repo:</strong> <a
+href="https://github.com/fitzyracing1/echoapp">https://github.com/fitzyracing1/echoapp</a></p>
+<p><strong>A new type of application that only acts after predicting and
+confirming an echo.</strong></p>
+<p>Traditional apps keep a world model and execute on input. EchoApp
+runs one loop:</p>
+<ol type="1">
+<li><strong>Receive intent</strong>: you type what you intend.</li>
+<li><strong>Predict the echo</strong>: the action path, what changes,
+what leaves the page, whether it's reversible, and the expected
+return.</li>
+<li><strong>Show it</strong> for confirmation or rejection (buttons or
+<code>Y</code> / <code>N</code>).</li>
+<li><strong>Execute only on confirmation.</strong></li>
+<li><strong>Append the result</strong> to the ledger <strong>and wait
+for the real return</strong>, then mark the echo <em>matched</em> or
+<em>diverged</em>.</li>
+</ol>
+<p>No silent side effects. No persistent world map. The loop is the
+product.</p>
+<p><img src="../projects/echoapp/docs/screenshot.png" alt="EchoApp" /></p>
+<h2 id="what-it-can-do">What it can do</h2>
+<p>All in one file, <code>echo-app.html</code> (open it in any browser,
+no server needed):</p>
+<table>
+<thead>
+<tr class="header">
+<th>Intent (examples)</th>
+<th>Echo</th>
+<th>Real return</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>remind me to call mom</code>, <code>todo buy milk</code></td>
+<td>add a task</td>
+<td>task is open</td>
+</tr>
+<tr class="even">
+<td><code>done milk</code></td>
+<td>close the matching task (low confidence and disabled if none
+matches)</td>
+<td>task done</td>
+</tr>
+<tr class="odd">
+<td><code>note the wifi code is on the fridge</code>,
+<code>forget note wifi</code></td>
+<td>keep / drop a note</td>
+<td>note saved / removed</td>
+</tr>
+<tr class="even">
+<td><code>timer 10 s to stretch</code>,
+<code>ping me in 5 min</code></td>
+<td>schedule a timer</td>
+<td>arrives later, when it fires (notification if allowed)</td>
+</tr>
+<tr class="odd">
+<td><code>calculate (19.99 * 3) - 5%2</code></td>
+<td>safe arithmetic (a parser, never <code>eval</code>)</td>
+<td>the number</td>
+</tr>
+<tr class="even">
+<td><code>open example.com</code>,
+<code>search echo location</code></td>
+<td>open a tab (shows that data leaves the page)</td>
+<td>tab opens / blocked</td>
+</tr>
+<tr class="odd">
+<td><code>copy hello</code></td>
+<td>write the clipboard (flagged irreversible)</td>
+<td>clipboard result</td>
+</tr>
+<tr class="even">
+<td><code>uppercase …</code>, <code>lowercase …</code>,
+<code>reverse …</code>, <code>slugify …</code>,
+<code>count words in …</code></td>
+<td>transform text</td>
+<td>the text</td>
+</tr>
+<tr class="odd">
+<td><code>clear done tasks</code></td>
+<td>drop done tasks from the replay</td>
+<td>count removed</td>
+</tr>
+<tr class="even">
+<td><code>forget everything</code></td>
+<td>erase the ledger (red, irreversible, export first)</td>
+<td>empty ledger</td>
+</tr>
+</tbody>
+</table>
+<p>Anything else predicts <strong>no echo</strong> and nothing can
+run.</p>
+<ul>
+<li><strong>Append-only ledger</strong> of every intent, prediction,
+decision (confirmed <em>and</em> rejected), result and real return, in
+<code>localStorage</code>. <strong>Export ledger</strong> downloads it
+as JSON.</li>
+<li><strong>No persistent world map</strong>: tasks and notes are never
+stored as state; they are <strong>replayed</strong> from confirmed
+ledger entries every render.</li>
+<li>Timers can't outlive the page; on reload any unfinished one is
+closed out as "lost" (diverged) instead of pretending.</li>
+<li><code>?intent=…</code> in the URL pre-fills and predicts.</li>
+</ul>
+<h2 id="run--test">Run / test</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">open</span> echo-app.html                  <span class="co"># or: python3 -m http.server 8080 → /echo-app.html</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> test                            <span class="co"># node --test: loads the core straight out of echo-app.html via node:vm</span></span></code></pre></div>
+<p>GitHub Pages: <code>.github/workflows/pages.yml</code> deploys the
+repo; <code>index.html</code> redirects to
+<code>echo-app.html</code>.</p>
+<h2 id="choices">Choices</h2>
+<p>The chat produced <code>echo-app.html</code> + a short README whose
+contents aren't in the capture. This rebuild keeps that concept (single
+file, keyword prediction, local storage) and makes it concrete: a fixed
+set of safe, local effectors; predicted vs. real return matching; replay
+instead of state; keyboard confirm/reject.</p>
+<h2 id="origin">Origin</h2>
+<p>Built from Joshua Almeida's Grok chat "Create a new type of app" (<a
+href="https://grok.com/c/052f9308-43d7-4387-8aed-eb95f36503b9">https://grok.com/c/052f9308-43d7-4387-8aed-eb95f36503b9</a>,
+~Oct 11, 2026).</p>
+<h2 id="license">License</h2>
+<p>MIT, see <a href="https://github.com/fitzyracing1/grok-builds/blob/main/projects/echoapp/LICENSE">LICENSE</a>.</p>
+</main></body></html>
